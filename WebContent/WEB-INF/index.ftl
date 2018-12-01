@@ -113,7 +113,7 @@
                     "choose": $('input[name=items]:checked', '#submitForm').val()
                 }),
             dataType: 'JSON',
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            contentType: "application/json; charset=UTF-8",
             success: function (data) {
                 map.clearOverlays();
                 var len = data.subwayList.length;
