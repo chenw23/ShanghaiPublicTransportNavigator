@@ -122,7 +122,7 @@
                 var stationEnd = new BMap.Point(data.subwayList[len - 1].longitude, data.subwayList[len - 1].latitude);
                 drawPoint(stationEnd, data.subwayList[len - 1].address);
                 showPoly(stationStart, stationEnd);
-                var arrayList = []
+                var arrayList = [];
                 for (var i = 1; i < len - 1; ++i) {
                     p = new BMap.Point(data.subwayList[i].longitude, data.subwayList[i].latitude);
                     arrayList.push(p);
