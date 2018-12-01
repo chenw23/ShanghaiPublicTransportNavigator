@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +23,6 @@ public class IndexService {
      * create the graph use file
      */
     public void createGraphFromFile() {
-        //如果图未初始化
         if (graph == null) {
             FileGetter fileGetter = new FileGetter();
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileGetter.readFileFromClasspath()))) {
@@ -88,7 +84,6 @@ public class IndexService {
                             stationInfo = bufferedReader.readLine();
                             stationInfoArray = stationInfo.split(",");
                         }
-
                     } else
                         while (true) {
                             stationInfo = bufferedReader.readLine();
@@ -131,7 +126,7 @@ public class IndexService {
         String startAddress = params.get("startAddress").toString();
         String startLongitude = params.get("startLongitude").toString();
         String startLatitude = params.get("startLatitude").toString();
-        String endAddress = URLDecoder.decode(params.get("endAddress").toString(), StandardCharsets.UTF_8);
+        String endAddress = params.get("endAddress").toString();
         String endLongitude = params.get("endLongitude").toString();
         String endLatitude = params.get("endLatitude").toString();
         String choose = params.get("choose").toString();
@@ -144,22 +139,19 @@ public class IndexService {
         System.out.println(endLatitude);
         System.out.println(choose);
 
+        startAddress = "上海体育馆";
+        endAddress = "国权路";
+        startLatitude = "31.189254";
+        startLongitude = "121.443956";
+        endLatitude = "31.295312";
+        endLongitude = "121.516705";
         Address startPoint = new Address(startAddress, startLongitude, startLatitude);
         Address endPoint = new Address(endAddress, endLongitude, endLatitude);
-        List<Address> addresses = new ArrayList<Address>();
+        ArrayList<Address> route = new ArrayList<>();
         switch (choose) {
             case "1":
                 //步行最少
-                //举个例子
-                addresses.add(new Address("张江高科", "121.593923", "31.207892"));
-                addresses.add(new Address("龙阳路", "121.564028", "31.209714"));
-                addresses.add(new Address("世纪公园", "121.557164", "31.215891"));
-                addresses.add(new Address("上海科技馆", "121.550589", "31.225433"));
-                addresses.add(new Address("世纪大道", "121.533449", "31.23482"));
-                addresses.add(new Address("东昌路", "121.5220233", "31.23905"));
-                addresses.add(new Address("陆家嘴", "121.508836", "31.243558"));
-                addresses.add(new Address("南京东路", "121.490331", "31.242817"));
-                addresses.add(new Address("人民广场", "121.479371", "31.238803"));
+                route = graph.getPath(startAddress, endAddress);
                 break;
             case "2":
                 //换乘最少
@@ -170,12 +162,10 @@ public class IndexService {
             default:
                 break;
         }
-
         ReturnValue returnValue = new ReturnValue();
         returnValue.setStartPoint(startPoint);
         returnValue.setEndPoint(endPoint);
-        returnValue.setSubwayList(addresses);
-
+        returnValue.setSubwayList(route);
         return returnValue;
     }
 }

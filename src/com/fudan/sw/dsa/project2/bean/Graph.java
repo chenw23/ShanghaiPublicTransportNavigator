@@ -59,49 +59,17 @@ public class Graph {
         return dijkstra.getPath(vertices, startV, endV);
     }
 
-    private ArrayList<String> getPath(String start, String end) {
+    public ArrayList<Address> getPath(String start, String end) {
         ArrayList<Vertex> path = getPath1(start, end);
-        ArrayList<String> path1 = new ArrayList<>();
-        if (path == null) {
-            path1.add("The station you have requested does not exist");
-            return path1;
-        }
-        Vertex preVertex = path.get(0);
+        ArrayList<Address> route = new ArrayList<>();
+        if (path == null)
+            return null;
         Vertex vertex;
-        String line = "";
         for (int i = 1; i < path.size(); i++) {
             vertex = path.get(i);
-            if (!vertex.getEdge(preVertex).getLine().equals(line)) {
-                line = vertex.getEdge(preVertex).getLine();
-                path1.add(preVertex.getName());
-                path1.add("-");
-                path1.add(line);
-                path1.add("-");
-            }
-            preVertex = vertex;
+            Address address = new Address(vertex.getName(), Double.toString(vertex.getLatitude()), Double.toString(vertex.getLongitude()));
+            route.add(address);
         }
-        path1.add(end);
-        return path1;
-    }
-
-    ArrayList<String> getPath(String[] station) {
-        ArrayList<String> path = new ArrayList<>();
-        for (String value : station)
-            if (exist(value) == null) {
-                path.add("The station you have requested does not exist");
-                return path;
-            }
-
-        String pre = station[0];
-        ArrayList<String> path1;
-        int i;
-        for (i = 1; i < station.length; i++) {
-            path1 = getPath(pre, station[i]);
-            path1.remove(path1.size() - 1);
-            path.addAll(path1);
-            pre = station[i];
-        }
-        path.add(station[i - 1]);
-        return path;
+        return route;
     }
 }

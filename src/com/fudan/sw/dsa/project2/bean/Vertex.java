@@ -10,6 +10,14 @@ public class Vertex {
     private Vertex preVertex;
     private double longitude, latitude;
 
+    double getLongitude() {
+        return longitude;
+    }
+
+    double getLatitude() {
+        return latitude;
+    }
+
     public Vertex(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;
