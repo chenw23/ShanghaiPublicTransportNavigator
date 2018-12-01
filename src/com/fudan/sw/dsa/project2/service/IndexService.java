@@ -139,12 +139,12 @@ public class IndexService {
         System.out.println(endLatitude);
         System.out.println(choose);
 
-        startAddress = "上海体育馆";
-        endAddress = "国权路";
-        startLatitude = "31.189254";
-        startLongitude = "121.443956";
-        endLatitude = "31.295312";
-        endLongitude = "121.516705";
+        startAddress = "国权路";
+        endAddress = "上海科技馆";
+        startLatitude = "31.295312";
+        startLongitude = "121.516705";
+        endLatitude = "31.225433";
+        endLongitude = "121.550589";
         Address startPoint = new Address(startAddress, startLongitude, startLatitude);
         Address endPoint = new Address(endAddress, endLongitude, endLatitude);
         ArrayList<Address> route = new ArrayList<>();

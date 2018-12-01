@@ -22,11 +22,11 @@
 <div style="width:80%;display: inline-block;" id="allmap"></div>
 <div style="width:20%; height:100%;display:inline-block; ">
     <form style="position:absolute;font-size:16px;top:5%;" id="submitForm">
-        &nbsp;&nbsp;&nbsp;起点: <input type="text" name="startAddress" id="startAddress" value="上海体育场"/>
+        &nbsp;&nbsp;&nbsp;起点: <input type="text" name="startAddress" id="startAddress" value="国权路"/>
         <input type="hidden" id="hiddenStartLongitude" value="121.604569"/>
         <input type="hidden" id="hiddenStartLatitude" value="31.196348"/>
         <br/><br/>
-        &nbsp;&nbsp;&nbsp;终点: <input type="text" name="endAddress" id="endAddress" value="人民广场"/>
+        &nbsp;&nbsp;&nbsp;终点: <input type="text" name="endAddress" id="endAddress" value="上海科技馆"/>
         <input type="hidden" id="hiddenEndLongitude" value="121.478941"/>
         <input type="hidden" id="hiddenEndLatitude" value="31.236009"/>
         <br/><br/>
@@ -46,8 +46,6 @@
     </div>
 </div>
 </body>
-</html>
-
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
     // 百度地图API功能
@@ -115,21 +113,20 @@
             dataType: 'JSON',
             contentType: "application/json; charset=UTF-8",
             success: function (data) {
-                map.clearOverlays();
                 var len = data.subwayList.length;
                 var stationStart = new BMap.Point(data.subwayList[0].longitude, data.subwayList[0].latitude);
-                drawPoint(stationStart, data.subwayList[0].address);
                 var stationEnd = new BMap.Point(data.subwayList[len - 1].longitude, data.subwayList[len - 1].latitude);
+                drawPoint(stationStart, data.subwayList[0].address);
                 drawPoint(stationEnd, data.subwayList[len - 1].address);
-                showPoly(stationStart, stationEnd);
                 var arrayList = [];
-                for (var i = 1; i < len - 1; ++i) {
+                for (let i = 0; i < len; ++i) {
                     p = new BMap.Point(data.subwayList[i].longitude, data.subwayList[i].latitude);
                     arrayList.push(p);
                     drawPoint(p, data.subwayList[i].address);
                 }
-                showPoly(stationStart, stationEnd, arrayList);
-
+                var polylineRoute = new BMap.Polyline(arrayList);
+                map.addOverlay(polylineRoute);
+                map.setViewport(arrayList);
                 var placeStart = new BMap.Point(data.startPoint.longitude, data.startPoint.latitude);
                 var placeEnd = new BMap.Point(data.endPoint.longitude, data.endPoint.latitude);
                 var polyline = new BMap.Polyline([placeStart, stationStart]);
@@ -163,21 +160,5 @@
         });
         marker.setLabel(label);
     }
-
-    //绘制公交路线
-    function showPoly(start, end, pointList) {
-        var driving = new BMap.TransitRoute(map, {
-            renderOptions: {
-                map: map,
-                autoViewport: true
-            }
-        });
-        driving.search(
-            start,
-            end,
-            {
-                waypoints: pointList
-            }
-        );
-    }
 </script>
+</html>
