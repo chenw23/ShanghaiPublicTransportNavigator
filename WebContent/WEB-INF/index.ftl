@@ -22,7 +22,7 @@
 <div style="width:80%;display: inline-block;" id="allmap"></div>
 <div style="width:20%; height:100%;display:inline-block; ">
     <form style="position:absolute;font-size:16px;top:5%;" id="submitForm">
-        &nbsp;&nbsp;&nbsp;起点: <input type="text" name="startAddress" id="startAddress" value="复旦大学张江校区"/>
+        &nbsp;&nbsp;&nbsp;起点: <input type="text" name="startAddress" id="startAddress" value="上海体育场"/>
         <input type="hidden" id="hiddenStartLongitude" value="121.604569"/>
         <input type="hidden" id="hiddenStartLatitude" value="31.196348"/>
         <br/><br/>
@@ -89,7 +89,7 @@
         map.addContextMenu(markerMenu);
 
         var markerMenuEnd = new BMap.ContextMenu();
-        markerMenu.addItem(new BMap.MenuItem('设为终点', EventStartMarker.bind(map)));
+        markerMenu.addItem(new BMap.MenuItem('设为终点', EventEndMarker.bind(map)));
         map.addContextMenu(markerMenuEnd);
     }
 
@@ -107,7 +107,7 @@
                     "startAddress": $("#startAddress").val(),
                     "startLongitude": $("#hiddenStartLongitude").val(),
                     "startLatitude": $("#hiddenStartLatitude").val(),
-                    "endAddress": encodeURI($("#endAddress").val()),
+                    "endAddress": $("#endAddress").val(),
                     "endLongitude": $("#hiddenEndLongitude").val(),
                     "endLatitude": $("#hiddenEndLatitude").val(),
                     "choose": $('input[name=items]:checked', '#submitForm').val()

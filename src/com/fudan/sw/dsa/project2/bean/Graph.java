@@ -65,12 +65,10 @@ public class Graph {
         ArrayList<Address> route = new ArrayList<>();
         if (path == null)
             return null;
-        Vertex vertex;
-        for (int i = 1; i < path.size(); i++) {
-            vertex = path.get(i);
-            Address address = new Address(vertex.getName(), Double.toString(vertex.getLatitude()), Double.toString(vertex.getLongitude()));
-            route.add(address);
-        }
+        for (Vertex vertex : path)
+            route.add(new Address(vertex.getName(),
+                    Double.toString(vertex.getLatitude()),
+                    Double.toString(vertex.getLongitude())));
         time = path.get(path.size() - 1).getDistance();
         return route;
     }
