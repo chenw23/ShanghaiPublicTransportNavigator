@@ -166,6 +166,7 @@ public class IndexService {
         returnValue.setStartPoint(startPoint);
         returnValue.setEndPoint(endPoint);
         returnValue.setSubwayList(route);
+        returnValue.setMinutes(graph.time);
         return returnValue;
     }
 }

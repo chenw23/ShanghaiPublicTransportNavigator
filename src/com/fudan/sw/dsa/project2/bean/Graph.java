@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Graph {
     public ArrayList<Vertex> vertices = new ArrayList<>();
+    public int time;
 
     public Graph() {
     }
@@ -70,6 +71,7 @@ public class Graph {
             Address address = new Address(vertex.getName(), Double.toString(vertex.getLatitude()), Double.toString(vertex.getLongitude()));
             route.add(address);
         }
+        time = path.get(path.size() - 1).getDistance();
         return route;
     }
 }
