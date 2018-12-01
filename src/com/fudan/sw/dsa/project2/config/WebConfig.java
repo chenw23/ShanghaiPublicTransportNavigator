@@ -72,14 +72,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
         return freeMarkerConfigurer;
     }
-	
-	/*@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/images/**").addResourceLocations("/resources/images/");
-		registry.addResourceHandler("/resources/css/**").addResourceLocations("/resources/css/");
-		registry.addResourceHandler("/resources/js/**").addResourceLocations("/resources/js/");
-	}
-*/
 
     @Bean
     public MappingJackson2HttpMessageConverter converter() {
