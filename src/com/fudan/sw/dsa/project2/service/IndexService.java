@@ -42,11 +42,11 @@ public class IndexService {
                     String stationInfo = bufferedReader.readLine();
                     stationInfoArray = stationInfo.split(",");
                     stationName = stationInfoArray[0];
-                    Vertex newStation = graph.exist(stationName);
+                    Vertex newStation = graph.getStation(stationName);
                     if (newStation == null) {
                         newStation = new Vertex(stationName,
-                                Double.parseDouble(stationInfoArray[1]),
-                                Double.parseDouble(stationInfoArray[2]));
+                                Double.parseDouble(stationInfoArray[2]),
+                                Double.parseDouble(stationInfoArray[1]));
                         graph.vertices.add(newStation);
                     }
                     time1 = stationInfoArray[3];
@@ -66,8 +66,8 @@ public class IndexService {
                             if (stationInfoArray[4].equals("--") && binStation == null)
                                 binStation = preStation;
                             newStation = graph.addVertex(preStation, stationName, name, time1, time2,
-                                    Double.parseDouble(stationInfoArray[1]),
-                                    Double.parseDouble(stationInfoArray[2]));
+                                    Double.parseDouble(stationInfoArray[2]),
+                                    Double.parseDouble(stationInfoArray[1]));
                             time1 = time2;
                         }
 
@@ -77,8 +77,8 @@ public class IndexService {
                             stationName = stationInfoArray[0];
                             time2 = stationInfoArray[4];
                             newStation = graph.addVertex(preStation, stationName, name, time1, time2,
-                                    Double.parseDouble(stationInfoArray[1]),
-                                    Double.parseDouble(stationInfoArray[2]));
+                                    Double.parseDouble(stationInfoArray[2]),
+                                    Double.parseDouble(stationInfoArray[1]));
                             time1 = time2;
                             preStation = newStation;
                             stationInfo = bufferedReader.readLine();
@@ -99,20 +99,20 @@ public class IndexService {
 
                             time2 = stationInfoArray[3];
                             newStation = graph.addVertex(preStation, stationName, name, time1, time2,
-                                    Double.parseDouble(stationInfoArray[1]),
-                                    Double.parseDouble(stationInfoArray[2]));
+                                    Double.parseDouble(stationInfoArray[2]),
+                                    Double.parseDouble(stationInfoArray[1]));
                             time1 = time2;
                         }
                 }
-                Vertex vertex1 = graph.exist("宜山路");
-                Vertex vertex2 = graph.exist("虹桥路");
+                Vertex vertex1 = graph.getStation("宜山路");
+                Vertex vertex2 = graph.getStation("虹桥路");
                 Edge edge = new Edge(vertex1, vertex2, "Line 4", 2);
                 assert vertex1 != null;
                 vertex1.getEdges().add(edge);
                 assert vertex2 != null;
                 vertex2.getEdges().add(edge);
-                vertex1.getVertices().add(vertex2);
-                vertex2.getVertices().add(vertex1);
+                vertex1.getAdjacentVertices().add(vertex2);
+                vertex2.getAdjacentVertices().add(vertex1);
                 System.out.println("The graph is generated successfully.");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -139,19 +139,13 @@ public class IndexService {
         System.out.println(endLatitude);
         System.out.println(choose);
 
-        startAddress = "国权路";
-        endAddress = "上海科技馆";
-        startLatitude = "31.295312";
-        startLongitude = "121.516705";
-        endLatitude = "31.225433";
-        endLongitude = "121.550589";
         Address startPoint = new Address(startAddress, startLongitude, startLatitude);
         Address endPoint = new Address(endAddress, endLongitude, endLatitude);
         ArrayList<Address> route = new ArrayList<>();
         switch (choose) {
             case "1":
                 //步行最少
-                route = graph.getPath(startAddress, endAddress);
+                route = graph.getPath(startPoint, endPoint);
                 break;
             case "2":
                 //换乘最少

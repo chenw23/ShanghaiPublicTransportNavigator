@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Vertex {
     private String name;
     private ArrayList<Edge> edges = new ArrayList<>();
-    private ArrayList<Vertex> vertices = new ArrayList<>();
+    private ArrayList<Vertex> adjacentVertices = new ArrayList<>();
     private int distance;
     private Vertex preVertex;
     private double longitude, latitude;
@@ -55,7 +55,7 @@ public class Vertex {
         preVertex = vertex;
     }
 
-    public ArrayList<Vertex> getVertices() {
-        return vertices;
+    public ArrayList<Vertex> getAdjacentVertices() {
+        return adjacentVertices;
     }
 }

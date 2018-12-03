@@ -22,11 +22,11 @@
 <div style="width:80%;display: inline-block;" id="allmap"></div>
 <div style="width:20%; height:100%;display:inline-block; ">
     <form style="position:absolute;font-size:16px;top:5%;" id="submitForm">
-        &nbsp;&nbsp;&nbsp;起点: <input type="text" name="startAddress" id="startAddress" value="国权路"/>
+        &nbsp;&nbsp;&nbsp;起点: <input type="text" name="startAddress" id="startAddress" value="复旦大学张江校区"/>
         <input type="hidden" id="hiddenStartLongitude" value="121.604569"/>
         <input type="hidden" id="hiddenStartLatitude" value="31.196348"/>
         <br/><br/>
-        &nbsp;&nbsp;&nbsp;终点: <input type="text" name="endAddress" id="endAddress" value="上海科技馆"/>
+        &nbsp;&nbsp;&nbsp;终点: <input type="text" name="endAddress" id="endAddress" value="人民广场"/>
         <input type="hidden" id="hiddenEndLongitude" value="121.478941"/>
         <input type="hidden" id="hiddenEndLatitude" value="31.236009"/>
         <br/><br/>
@@ -95,7 +95,6 @@
     function clickButton() {
         //请在这里检查数据
 
-
         var baseUrl = $("#hiddenBaseUrl").val();
         $.ajax({
             url: baseUrl + "/submitsearch",
@@ -113,34 +112,29 @@
             dataType: 'JSON',
             contentType: "application/json; charset=UTF-8",
             success: function (data) {
-                var len = data.subwayList.length;
-                var stationStart = new BMap.Point(data.subwayList[0].longitude, data.subwayList[0].latitude);
-                var stationEnd = new BMap.Point(data.subwayList[len - 1].longitude, data.subwayList[len - 1].latitude);
-                drawPoint(stationStart, data.subwayList[0].address);
-                drawPoint(stationEnd, data.subwayList[len - 1].address);
-                var arrayList = [];
+                map.clearOverlays();
+                let len = data.subwayList.length;
+                let placeStart = new BMap.Point(data.startPoint.longitude, data.startPoint.latitude);
+                let placeEnd = new BMap.Point(data.endPoint.longitude, data.endPoint.latitude);
+                let arrayList = [];
+                arrayList.push(placeStart);
                 for (let i = 0; i < len; ++i) {
-                    p = new BMap.Point(data.subwayList[i].longitude, data.subwayList[i].latitude);
+                    let p = new BMap.Point(data.subwayList[i].longitude, data.subwayList[i].latitude);
                     arrayList.push(p);
                     drawPoint(p, data.subwayList[i].address);
                 }
-                var polylineRoute = new BMap.Polyline(arrayList);
+                arrayList.push(placeEnd);
+
+                let polylineRoute = new BMap.Polyline(arrayList);
                 map.addOverlay(polylineRoute);
                 map.setViewport(arrayList);
-                var placeStart = new BMap.Point(data.startPoint.longitude, data.startPoint.latitude);
-                var placeEnd = new BMap.Point(data.endPoint.longitude, data.endPoint.latitude);
-                var polyline = new BMap.Polyline([placeStart, stationStart]);
-                map.addOverlay(polyline);
-                var polylineEnd = new BMap.Polyline([stationEnd, placeEnd]);
-                map.addOverlay(polylineEnd);
 
                 drawPoint(placeStart, data.startPoint.address);
                 drawPoint(placeEnd, data.endPoint.address);
 
-                var str = data.startPoint.address;
-                for (var i = 0; i < len; ++i) {
+                let str = data.startPoint.address;
+                for (let i = 0; i < len; ++i)
                     str += "&nbsp;&nbsp;->&nbsp;&nbsp;" + data.subwayList[i].address;
-                }
                 str += "&nbsp;&nbsp;->&nbsp;&nbsp;" + data.endPoint.address + "<br/>";
                 str += "花费时间为:&nbsp;&nbsp; " + data.minutes + "&nbsp;分钟";
                 $("#resultDiv").html(str);

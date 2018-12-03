@@ -13,7 +13,7 @@ class Dijkstra {
             Vertex u = minHeap.extractMin();
             if (u == end)
                 break;
-            for (Vertex vertex : u.getVertices())
+            for (Vertex vertex : u.getAdjacentVertices())
                 relax(u, vertex);
             minHeap.buildMinHeap();
         }

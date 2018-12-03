@@ -14,13 +14,13 @@ public class Graph {
 
     public Vertex addVertex(Vertex preStation, String stationName, String name,
                             String time1, String time2, double latitude, double longitude) {
-        Vertex newStation = exist(stationName);
+        Vertex newStation = getStation(stationName);
         if (newStation == null) {
             newStation = new Vertex(stationName, latitude, longitude);
             vertices.add(newStation);
         }
-        preStation.getVertices().add(newStation);
-        newStation.getVertices().add(preStation);
+        preStation.getAdjacentVertices().add(newStation);
+        newStation.getAdjacentVertices().add(preStation);
         Edge edge = new Edge(preStation, newStation, name, getTime(time1, time2));
         preStation.getEdges().add(edge);
         newStation.getEdges().add(edge);
@@ -28,11 +28,35 @@ public class Graph {
     }
 
     @Nullable
-    public Vertex exist(String station) {
+    public Vertex getStation(String address) {
         for (Vertex vertex : vertices)
-            if (vertex.getName().equals(station))
+            if (vertex.getName().equals(address))
                 return vertex;
         return null;
+    }
+
+    private Vertex searchForStation(Address address) {
+        Vertex nearestStation = vertices.get(0);
+        for (Vertex currentStation : vertices)
+            if (calculateDistance(currentStation, address) < calculateDistance(nearestStation, address))
+                nearestStation = currentStation;
+        return nearestStation;
+    }
+
+    private double calculateDistance(@NotNull Vertex station, @NotNull Address address) {
+        double startLatitude = station.getLatitude(),
+                startLongitude = station.getLongitude(),
+                endLatitude = address.getLatitude(),
+                endLongitude = address.getLongitude();
+        double radLat1 = Math.toRadians(startLatitude);
+        double radLat2 = Math.toRadians(endLatitude);
+        double a = radLat1 - radLat2;
+        double b = Math.toRadians(startLongitude) - Math.toRadians(endLongitude);
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+        s = s * 6378.137;
+        s = Math.round(s * 10000.0) / 10000.0;
+        return s;
     }
 
     private int getTime(@NotNull String start, @NotNull String end) {
@@ -45,11 +69,10 @@ public class Graph {
         return hour * 60 + ten * 10 + minute;
     }
 
-    @Nullable
-    public ArrayList<Address> getPath(String start, String end) {
+    public ArrayList<Address> getPath(Address start, Address end) {
         Dijkstra dijkstra = new Dijkstra();
-        Vertex startV = exist(start);
-        Vertex endV = exist(end);
+        Vertex startV = searchForStation(start);
+        Vertex endV = searchForStation(end);
         if (startV == null || endV == null)
             return null;
         ArrayList<Vertex> path = new ArrayList<>();
@@ -62,8 +85,8 @@ public class Graph {
             return null;
         for (Vertex vertex : path)
             route.add(new Address(vertex.getName(),
-                    Double.toString(vertex.getLatitude()),
-                    Double.toString(vertex.getLongitude())));
+                    Double.toString(vertex.getLongitude()),
+                    Double.toString(vertex.getLatitude())));
         time = path.get(path.size() - 1).getDistance();
         return route;
     }
