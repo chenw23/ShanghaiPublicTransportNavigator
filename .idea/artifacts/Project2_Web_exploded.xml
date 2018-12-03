@@ -38,6 +38,7 @@
           <element id="library" level="project" name="annotations-16.0.2-javadoc" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="Project2/web/Web2" />
     </root>
   </artifact>
 </component>

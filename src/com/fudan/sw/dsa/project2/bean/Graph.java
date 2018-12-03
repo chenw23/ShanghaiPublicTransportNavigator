@@ -46,22 +46,17 @@ public class Graph {
     }
 
     @Nullable
-    private ArrayList<Vertex> getPath1(String start, String end) {
+    public ArrayList<Address> getPath(String start, String end) {
         Dijkstra dijkstra = new Dijkstra();
         Vertex startV = exist(start);
         Vertex endV = exist(end);
         if (startV == null || endV == null)
             return null;
         ArrayList<Vertex> path = new ArrayList<>();
-        if (startV == endV) {
+        if (startV == endV)
             path.add(startV);
-            return path;
-        }
-        return dijkstra.getPath(vertices, startV, endV);
-    }
-
-    public ArrayList<Address> getPath(String start, String end) {
-        ArrayList<Vertex> path = getPath1(start, end);
+        else
+            path = dijkstra.getPath(vertices, startV, endV);
         ArrayList<Address> route = new ArrayList<>();
         if (path == null)
             return null;
