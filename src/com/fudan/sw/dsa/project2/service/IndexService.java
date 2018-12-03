@@ -150,7 +150,8 @@ public class IndexService {
                 //换乘最少
                 break;
             case "3":
-                //时间最短:
+                //时间最短
+                route = graph.shortestTime(startPoint, endPoint);
                 break;
             default:
         }

@@ -1,5 +1,6 @@
 package com.fudan.sw.dsa.project2.bean;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,13 +87,8 @@ public class Graph {
         return path;
     }
 
-    public ArrayList<Address> shortestWalking(Address start, Address end) {
-        time = 0;
-        Vertex startV = searchForStation(start);
-        Vertex endV = searchForStation(end);
-        if (startV == null || endV == null)
-            return null;
-        ArrayList<Vertex> path = getPath(startV, endV);
+    @Contract("null -> null")
+    private ArrayList<Address> returnRoute(ArrayList<Vertex> path) {
         ArrayList<Address> route = new ArrayList<>();
         if (path == null)
             return null;
@@ -104,7 +100,44 @@ public class Graph {
         return route;
     }
 
+    public ArrayList<Address> shortestWalking(Address start, Address end) {
+        time = 0;
+        Vertex startV = searchForStation(start);
+        Vertex endV = searchForStation(end);
+        if (startV == null || endV == null)
+            return null;
+        ArrayList<Vertex> path = getPath(startV, endV);
+        return returnRoute(path);
+    }
+
     public ArrayList<Address> shortestTime(Address start, Address end) {
-        return null;
+        time = 0;
+        int shortestTime = Integer.MAX_VALUE;
+        ArrayList<Vertex> candidateStartStation = new ArrayList<>();
+        ArrayList<Vertex> candidateEndStation = new ArrayList<>();
+        ArrayList<Vertex> path;
+        ArrayList<Vertex> finalPath = null;
+
+        for (Vertex vertex : vertices) {
+            if (calculateDistance(vertex, start) < 5)
+                candidateStartStation.add(vertex);
+            if (calculateDistance(vertex, end) < 5)
+                candidateEndStation.add(vertex);
+        }
+        if (candidateStartStation.size() == 0 || candidateEndStation.size() == 0)
+            return shortestWalking(start, end);
+        for (Vertex vertexS : candidateStartStation)
+            for (Vertex vertexE : candidateEndStation) {
+                time = 0;
+                path = getPath(vertexS, vertexE);
+                time = path.get(path.size() - 1).getDistance() +
+                        (int) (calculateDistance(vertexS, start) + calculateDistance(vertexE, end)) * 12;
+                if (time < shortestTime) {
+                    finalPath = path;
+                    shortestTime = time;
+                }
+            }
+        time = shortestTime;
+        return returnRoute(finalPath);
     }
 }
