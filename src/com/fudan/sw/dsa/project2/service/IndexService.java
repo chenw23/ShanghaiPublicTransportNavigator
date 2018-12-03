@@ -120,7 +120,6 @@ public class IndexService {
         }
     }
 
-
     public ReturnValue travelRoute(Map<String, Object> params) {
 
         String startAddress = params.get("startAddress").toString();
@@ -145,7 +144,7 @@ public class IndexService {
         switch (choose) {
             case "1":
                 //步行最少
-                route = graph.getPath(startPoint, endPoint);
+                route = graph.shortestWalking(startPoint, endPoint);
                 break;
             case "2":
                 //换乘最少
@@ -154,7 +153,6 @@ public class IndexService {
                 //时间最短:
                 break;
             default:
-                break;
         }
         ReturnValue returnValue = new ReturnValue();
         returnValue.setStartPoint(startPoint);

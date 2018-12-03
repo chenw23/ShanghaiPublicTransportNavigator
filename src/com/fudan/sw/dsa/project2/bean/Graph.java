@@ -36,10 +36,17 @@ public class Graph {
     }
 
     private Vertex searchForStation(Address address) {
+        double distance = Double.MAX_VALUE;
+        double currentDistance;
         Vertex nearestStation = vertices.get(0);
-        for (Vertex currentStation : vertices)
-            if (calculateDistance(currentStation, address) < calculateDistance(nearestStation, address))
+        for (Vertex currentStation : vertices) {
+            currentDistance = calculateDistance(currentStation, address);
+            if (currentDistance < distance) {
+                distance = currentDistance;
                 nearestStation = currentStation;
+            }
+        }
+        time += distance * 12;
         return nearestStation;
     }
 
@@ -69,17 +76,23 @@ public class Graph {
         return hour * 60 + ten * 10 + minute;
     }
 
-    public ArrayList<Address> getPath(Address start, Address end) {
-        Dijkstra dijkstra = new Dijkstra();
-        Vertex startV = searchForStation(start);
-        Vertex endV = searchForStation(end);
-        if (startV == null || endV == null)
-            return null;
+    private ArrayList<Vertex> getPath(Vertex startV, Vertex endV) {
         ArrayList<Vertex> path = new ArrayList<>();
+        Dijkstra dijkstra = new Dijkstra();
         if (startV == endV)
             path.add(startV);
         else
             path = dijkstra.getPath(vertices, startV, endV);
+        return path;
+    }
+
+    public ArrayList<Address> shortestWalking(Address start, Address end) {
+        time = 0;
+        Vertex startV = searchForStation(start);
+        Vertex endV = searchForStation(end);
+        if (startV == null || endV == null)
+            return null;
+        ArrayList<Vertex> path = getPath(startV, endV);
         ArrayList<Address> route = new ArrayList<>();
         if (path == null)
             return null;
@@ -87,7 +100,11 @@ public class Graph {
             route.add(new Address(vertex.getName(),
                     Double.toString(vertex.getLongitude()),
                     Double.toString(vertex.getLatitude())));
-        time = path.get(path.size() - 1).getDistance();
+        time += path.get(path.size() - 1).getDistance();
         return route;
+    }
+
+    public ArrayList<Address> shortestTime(Address start, Address end) {
+        return null;
     }
 }
