@@ -96,7 +96,6 @@ public class Graph {
             route.add(new Address(vertex.getName(),
                     Double.toString(vertex.getLongitude()),
                     Double.toString(vertex.getLatitude())));
-        time += path.get(path.size() - 1).getDistance();
         return route;
     }
 
@@ -107,6 +106,7 @@ public class Graph {
         if (startV == null || endV == null)
             return null;
         ArrayList<Vertex> path = getPath(startV, endV);
+        time += path.get(path.size() - 1).getDistance();
         return returnRoute(path);
     }
 
@@ -131,7 +131,8 @@ public class Graph {
                 time = 0;
                 path = getPath(vertexS, vertexE);
                 time = path.get(path.size() - 1).getDistance() +
-                        (int) (calculateDistance(vertexS, start) + calculateDistance(vertexE, end)) * 12;
+                        (int) ((calculateDistance(vertexS, start) * 12)) +
+                        (int) (calculateDistance(vertexE, end) * 12);
                 if (time < shortestTime) {
                     finalPath = path;
                     shortestTime = time;
