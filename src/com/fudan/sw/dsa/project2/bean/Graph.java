@@ -99,6 +99,14 @@ public class Graph {
         return route;
     }
 
+    private static int transferTime(@NotNull ArrayList<Vertex> path) {
+        int transferTime = 0;
+        for (int i = 2; i < path.size(); i++)
+            if (!path.get(i).getEdge(path.get(i - 1)).getLine().equals(path.get(i - 1).getEdge(path.get(i - 2)).getLine()))
+                transferTime++;
+        return transferTime;
+    }
+
     public ArrayList<Address> shortestWalking(Address start, Address end) {
         time = 0;
         Vertex startV = searchForStation(start);
@@ -113,26 +121,15 @@ public class Graph {
     public ArrayList<Address> shortestTime(Address start, Address end) {
         time = 0;
         int shortestTime = Integer.MAX_VALUE;
-        ArrayList<Vertex> candidateStartStation = new ArrayList<>();
-        ArrayList<Vertex> candidateEndStation = new ArrayList<>();
         ArrayList<Vertex> path;
         ArrayList<Vertex> finalPath = null;
-
-        for (Vertex vertex : vertices) {
-            if (calculateDistance(vertex, start) < 5)
-                candidateStartStation.add(vertex);
-            if (calculateDistance(vertex, end) < 5)
-                candidateEndStation.add(vertex);
-        }
+        ArrayList<Vertex> candidateStartStation = getCandidates(start);
+        ArrayList<Vertex> candidateEndStation = getCandidates(end);
         if (candidateStartStation.size() == 0 || candidateEndStation.size() == 0)
             return shortestWalking(start, end);
         for (Vertex vertexS : candidateStartStation)
             for (Vertex vertexE : candidateEndStation) {
-                time = 0;
-                path = getPath(vertexS, vertexE);
-                time = path.get(path.size() - 1).getDistance() +
-                        (int) ((calculateDistance(vertexS, start) * 12)) +
-                        (int) (calculateDistance(vertexE, end) * 12);
+                path = getPathAndTime(vertexS, vertexE, start, end);
                 if (time < shortestTime) {
                     finalPath = path;
                     shortestTime = time;
@@ -140,5 +137,46 @@ public class Graph {
             }
         time = shortestTime;
         return returnRoute(finalPath);
+    }
+
+    public ArrayList<Address> lessTransfer(Address start, Address end) {
+        time = 0;
+        int leastTransferNumber = Integer.MAX_VALUE;
+        int shortestTime = Integer.MAX_VALUE;
+        ArrayList<Vertex> finalPath = null;
+        ArrayList<Vertex> candidateStartStation = getCandidates(start);
+        ArrayList<Vertex> candidateEndStation = getCandidates(end);
+        if (candidateStartStation.size() == 0 || candidateEndStation.size() == 0)
+            return shortestWalking(start, end);
+        for (Vertex vertexS : candidateStartStation)
+            for (Vertex vertexE : candidateEndStation) {
+                ArrayList<Vertex> path = getPathAndTime(vertexS, vertexE, start, end);
+                int transferTime = transferTime(path);
+                if (transferTime < leastTransferNumber ||
+                        transferTime == leastTransferNumber && time < shortestTime) {
+                    finalPath = path;
+                    leastTransferNumber = transferTime;
+                    shortestTime = time;
+                }
+            }
+        time = shortestTime;
+        return returnRoute(finalPath);
+    }
+
+    private ArrayList<Vertex> getPathAndTime(Vertex vertexS, Vertex vertexE, Address start, Address end) {
+        time = 0;
+        ArrayList<Vertex> path = getPath(vertexS, vertexE);
+        time = path.get(path.size() - 1).getDistance() +
+                (int) ((calculateDistance(vertexS, start) * 12)) +
+                (int) (calculateDistance(vertexE, end) * 12);
+        return path;
+    }
+
+    private ArrayList<Vertex> getCandidates(Address address) {
+        ArrayList<Vertex> candidate = new ArrayList<>();
+        for (Vertex vertex : vertices)
+            if (calculateDistance(vertex, address) < 4)
+                candidate.add(vertex);
+        return candidate;
     }
 }

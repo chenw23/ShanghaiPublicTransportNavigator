@@ -148,6 +148,7 @@ public class IndexService {
                 break;
             case "2":
                 //换乘最少
+                route = graph.lessTransfer(startPoint, endPoint);
                 break;
             case "3":
                 //时间最短
