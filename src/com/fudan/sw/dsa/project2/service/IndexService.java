@@ -47,7 +47,7 @@ public class IndexService {
                         newStation = new Vertex(stationName,
                                 Double.parseDouble(stationInfoArray[2]),
                                 Double.parseDouble(stationInfoArray[1]));
-                        graph.vertices.add(newStation);
+                        Graph.vertices.add(newStation);
                     }
                     time1 = stationInfoArray[3];
                     Vertex preStation;

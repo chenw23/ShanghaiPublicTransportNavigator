@@ -6,11 +6,93 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * The entrance of the shortest path searching algorithm and it stores the vertices in the
+ * graph. It contains the graph initialization method that creates new vertices and edges
+ * storing specified data, the get path methods that correspond to the demands in the
+ * project and a number of utility functions that makes code reuse more widespread.
+ *
+ * @author Wang, Chen
+ */
 public class Graph {
-    public ArrayList<Vertex> vertices = new ArrayList<>();
+
+    /**
+     * All the vertices, i.e. the subway stations are stored in this variable.
+     */
+    public static ArrayList<Vertex> vertices = new ArrayList<>();
+
+    /**
+     * The total consuming time of the route, including the walking time and subway running
+     * time.
+     *
+     * @implSpec It is updated both in and outside of this class and so does query.
+     */
     public int time;
 
     public Graph() {
+    }
+
+    /**
+     * Calculates the times of transfer by comparing the name of the adjacent edges.
+     * Transfer time is addes by 1 if the adjacent edges have different names.
+     *
+     * @param path the calculated path
+     */
+    private static int transferTime(@NotNull ArrayList<Vertex> path) {
+        int transferTime = 0;
+        for (int i = 2; i < path.size(); i++)
+            if (!path.get(i).getEdge(path.get(i - 1)).getLine().equals(path.get(i - 1).getEdge(path.get(i - 2)).getLine()))
+                transferTime++;
+        return transferTime;
+    }
+
+    /**
+     * Iterates all the vertices so as to find the vertices that is close to the requested
+     * address. The straight line distance between the address and the station is calculated.
+     *
+     * @param address The start point or the end point
+     */
+    private static ArrayList<Vertex> getCandidates(Address address) {
+        ArrayList<Vertex> candidate = new ArrayList<>();
+        for (Vertex vertex : vertices)
+            if (calculateDistance(vertex, address) < 4)
+                candidate.add(vertex);
+        return candidate;
+    }
+
+    /**
+     * Get the distance between two points on the map.
+     * Tht algorithm has taken the earth is not flat into consideration
+     *
+     * @param station The subway station
+     * @param address The start address or the end address.
+     */
+    private static double calculateDistance(@NotNull Vertex station, @NotNull Address address) {
+        double startLatitude = station.getLatitude(),
+                startLongitude = station.getLongitude(),
+                endLatitude = address.getLatitude(),
+                endLongitude = address.getLongitude();
+        double radLat1 = Math.toRadians(startLatitude);
+        double radLat2 = Math.toRadians(endLatitude);
+        double a = radLat1 - radLat2;
+        double b = Math.toRadians(startLongitude) - Math.toRadians(endLongitude);
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+        s = s * 6378.137;
+        s = Math.round(s * 10000.0) / 10000.0;
+        return s;
+    }
+
+    @Contract("null -> null")
+    private static ArrayList<Address> returnRoute(ArrayList<Vertex> path) {
+        ArrayList<Address> route = new ArrayList<>();
+        if (path == null)
+            return null;
+        for (Vertex vertex : path)
+            route.add(new Address(vertex.getName(),
+                    Double.toString(vertex.getLongitude()),
+                    Double.toString(vertex.getLatitude())));
+        return route;
     }
 
     public Vertex addVertex(Vertex preStation, String stationName, String name,
@@ -51,22 +133,6 @@ public class Graph {
         return nearestStation;
     }
 
-    private double calculateDistance(@NotNull Vertex station, @NotNull Address address) {
-        double startLatitude = station.getLatitude(),
-                startLongitude = station.getLongitude(),
-                endLatitude = address.getLatitude(),
-                endLongitude = address.getLongitude();
-        double radLat1 = Math.toRadians(startLatitude);
-        double radLat2 = Math.toRadians(endLatitude);
-        double a = radLat1 - radLat2;
-        double b = Math.toRadians(startLongitude) - Math.toRadians(endLongitude);
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
-                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
-        s = s * 6378.137;
-        s = Math.round(s * 10000.0) / 10000.0;
-        return s;
-    }
-
     private int getTime(@NotNull String start, @NotNull String end) {
         int length1 = start.length();
         int length2 = end.length();
@@ -85,26 +151,6 @@ public class Graph {
         else
             path = dijkstra.getPath(vertices, startV, endV);
         return path;
-    }
-
-    @Contract("null -> null")
-    private ArrayList<Address> returnRoute(ArrayList<Vertex> path) {
-        ArrayList<Address> route = new ArrayList<>();
-        if (path == null)
-            return null;
-        for (Vertex vertex : path)
-            route.add(new Address(vertex.getName(),
-                    Double.toString(vertex.getLongitude()),
-                    Double.toString(vertex.getLatitude())));
-        return route;
-    }
-
-    private static int transferTime(@NotNull ArrayList<Vertex> path) {
-        int transferTime = 0;
-        for (int i = 2; i < path.size(); i++)
-            if (!path.get(i).getEdge(path.get(i - 1)).getLine().equals(path.get(i - 1).getEdge(path.get(i - 2)).getLine()))
-                transferTime++;
-        return transferTime;
     }
 
     public ArrayList<Address> shortestWalking(Address start, Address end) {
@@ -170,13 +216,5 @@ public class Graph {
                 (int) ((calculateDistance(vertexS, start) * 12)) +
                 (int) (calculateDistance(vertexE, end) * 12);
         return path;
-    }
-
-    private ArrayList<Vertex> getCandidates(Address address) {
-        ArrayList<Vertex> candidate = new ArrayList<>();
-        for (Vertex vertex : vertices)
-            if (calculateDistance(vertex, address) < 4)
-                candidate.add(vertex);
-        return candidate;
     }
 }
