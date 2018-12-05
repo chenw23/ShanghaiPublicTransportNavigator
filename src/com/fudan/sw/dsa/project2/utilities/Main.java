@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        File file = new File("stations.csv");
+        File file = new File("stations.txt");
         ArrayList<String> arrayList = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(file);
@@ -36,8 +36,13 @@ public class Main {
                     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder builder = factory.newDocumentBuilder();
                     Document document = builder.parse(is);
-                    String lat = document.getElementsByTagName("lat").item(0).getFirstChild().getTextContent();
-                    String lng = document.getElementsByTagName("lng").item(0).getFirstChild().getTextContent();
+                    String lat = "INVALID";
+                    String lng = "INVALID";
+                    if (document.getElementsByTagName("lat") == null &&
+                            document.getElementsByTagName("lat").item(0) == null) {
+                        lat = document.getElementsByTagName("lat").item(0).getFirstChild().getTextContent();
+                        lng = document.getElementsByTagName("lng").item(0).getFirstChild().getTextContent();
+                    }
                     System.out.println(station + " " + lat + " " + lng);
                     arrayList.add(station);
                     Thread.sleep(2000);
