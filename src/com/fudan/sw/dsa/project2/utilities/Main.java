@@ -38,8 +38,8 @@ public class Main {
                     Document document = builder.parse(is);
                     String lat = "INVALID";
                     String lng = "INVALID";
-                    if (document.getElementsByTagName("lat") == null &&
-                            document.getElementsByTagName("lat").item(0) == null) {
+                    if (document.getElementsByTagName("lat") != null &&
+                            document.getElementsByTagName("lat").item(0) != null) {
                         lat = document.getElementsByTagName("lat").item(0).getFirstChild().getTextContent();
                         lng = document.getElementsByTagName("lng").item(0).getFirstChild().getTextContent();
                     }
