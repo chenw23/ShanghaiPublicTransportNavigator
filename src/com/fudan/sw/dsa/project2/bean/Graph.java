@@ -122,9 +122,9 @@ public class Graph {
         time = 0;
         int shortestTime = Integer.MAX_VALUE;
         ArrayList<Vertex> path;
-        ArrayList<Vertex> finalPath = null;
         ArrayList<Vertex> candidateStartStation = getCandidates(start);
         ArrayList<Vertex> candidateEndStation = getCandidates(end);
+        ArrayList<Vertex> finalPath = null;
         if (candidateStartStation.size() == 0 || candidateEndStation.size() == 0)
             return shortestWalking(start, end);
         for (Vertex vertexS : candidateStartStation)
