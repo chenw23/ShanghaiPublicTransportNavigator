@@ -40,7 +40,7 @@ public class Main {
                     String lng = document.getElementsByTagName("lng").item(0).getFirstChild().getTextContent();
                     System.out.println(station + " " + lat + " " + lng);
                     arrayList.add(station);
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 }
             }
         } catch (ParserConfigurationException | SAXException | IOException | InterruptedException e) {
