@@ -26,7 +26,7 @@ public class IndexService {
         if (graph == null) {
             FileGetter fileGetter = new FileGetter();
             try (BufferedReader bufferedReader =
-                         new BufferedReader(new FileReader(fileGetter.readFileFromClasspath()))) {
+                         new BufferedReader(new FileReader(fileGetter.readFileFromClasspath("subway.txt")))) {
                 //create the graph from file
                 graph = new Graph();
                 int totalLineNumber = 15;
@@ -122,7 +122,6 @@ public class IndexService {
     }
 
     public ReturnValue travelRoute(Map<String, Object> params) {
-
         String startAddress = params.get("startAddress").toString();
         String startLongitude = params.get("startLongitude").toString();
         String startLatitude = params.get("startLatitude").toString();

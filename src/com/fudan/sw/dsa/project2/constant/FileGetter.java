@@ -8,10 +8,8 @@ import java.io.File;
  * @author zjiehang
  */
 public class FileGetter {
-    private static final String FILE_PATH = "subway.txt";
-
-    public File readFileFromClasspath() {
+    public File readFileFromClasspath(String path) {
         ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource(FILE_PATH).getFile());
+        return new File(classLoader.getResource(path).getFile());
     }
 }
