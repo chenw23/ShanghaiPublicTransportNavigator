@@ -33,10 +33,10 @@ public class IndexController {
 
     /**
      * @param params startAddress:   the address of start point like 复旦大学张江校区
-     *               startlongitude: the longitude of start point
+     *               startLongitude: the longitude of start point
      *               startLatitude:  the latitude of start point
      *               endAddress:     the address of end point like 复旦大学张江校区
-     *               endlongitude:   the longitude of end point
+     *               endLongitude:   the longitude of end point
      *               endLatitude:    the latitude of end point
      *               in params map, key is below,value is by UI
      * @return a ReturnValue object containing start point, end point and the subway lists.
