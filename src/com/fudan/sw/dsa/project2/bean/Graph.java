@@ -219,6 +219,26 @@ public class Graph {
     }
 
     /**
+     * The auxiliary method for the last two method for conveniently get the path and total
+     * consuming time for any requested station and the specified start and end address.
+     *
+     * @param vertexS Start subway station
+     * @param vertexE End subway station
+     * @param start   The start address
+     * @param end     The end address
+     * @return The same as get path method
+     * @implNote The global variable time is refreshed and updated in this method
+     */
+    private ArrayList<Vertex> getPathAndTime(Vertex vertexS, Vertex vertexE, Address start, Address end) {
+        time = 0;
+        ArrayList<Vertex> path = getPath(vertexS, vertexE);
+        time = path.get(path.size() - 1).getDistance() +
+                (int) ((calculateDistance(vertexS, start) * 12)) +
+                (int) (calculateDistance(vertexE, end) * 12);
+        return path;
+    }
+
+    /**
      * The starting entrance from the front end, the shortest walking option
      * will call this method directly and this method will select the station
      * based on the shortest distance and call the dijkstra algorithm
@@ -309,23 +329,5 @@ public class Graph {
         return returnRoute(finalPath);
     }
 
-    /**
-     * The auxiliary method for the last two method for conveniently get the path and total
-     * consuming time for any requested station and the specified start and end address.
-     *
-     * @param vertexS Start subway station
-     * @param vertexE End subway station
-     * @param start   The start address
-     * @param end     The end address
-     * @return The same as get path method
-     * @implNote The global variable time is refreshed and updated in this method
-     */
-    private ArrayList<Vertex> getPathAndTime(Vertex vertexS, Vertex vertexE, Address start, Address end) {
-        time = 0;
-        ArrayList<Vertex> path = getPath(vertexS, vertexE);
-        time = path.get(path.size() - 1).getDistance() +
-                (int) ((calculateDistance(vertexS, start) * 12)) +
-                (int) (calculateDistance(vertexE, end) * 12);
-        return path;
-    }
+
 }
