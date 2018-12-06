@@ -19,7 +19,7 @@ public class Graph {
     /**
      * All the vertices, i.e. the subway stations are stored in this variable.
      */
-    public static ArrayList<Vertex> vertices = new ArrayList<>();
+    public ArrayList<Vertex> vertices = new ArrayList<>();
 
     /**
      * The total consuming time of the route, including the walking time and subway running
@@ -47,21 +47,6 @@ public class Graph {
     }
 
     /**
-     * Iterates all the vertices so as to find the vertices that is close to the requested
-     * address. The straight line distance between the address and the station is calculated.
-     *
-     * @param address The start point or the end point
-     * @return The candidate vertices
-     */
-    private static ArrayList<Vertex> getCandidates(Address address) {
-        ArrayList<Vertex> candidate = new ArrayList<>();
-        for (Vertex vertex : vertices)
-            if (calculateDistance(vertex, address) < 4)
-                candidate.add(vertex);
-        return candidate;
-    }
-
-    /**
      * Get the distance between two points on the map.
      * Tht algorithm has taken the earth is not flat into consideration
      *
@@ -84,7 +69,6 @@ public class Graph {
         s = Math.round(s * 10000.0) / 10000.0;
         return s;
     }
-
 
     /**
      * Returns the route that is accepted by the front end. It encapsulates each
@@ -123,6 +107,21 @@ public class Graph {
         int hour = (int) end.charAt(length2 - 4) - (int) start.charAt(length1 - 4);
         hour = hour >= 0 ? hour : hour + 4;
         return hour * 60 + ten * 10 + minute;
+    }
+
+    /**
+     * Iterates all the vertices so as to find the vertices that is close to the requested
+     * address. The straight line distance between the address and the station is calculated.
+     *
+     * @param address The start point or the end point
+     * @return The candidate vertices
+     */
+    private ArrayList<Vertex> getCandidates(Address address) {
+        ArrayList<Vertex> candidate = new ArrayList<>();
+        for (Vertex vertex : vertices)
+            if (calculateDistance(vertex, address) < 4)
+                candidate.add(vertex);
+        return candidate;
     }
 
     /**
