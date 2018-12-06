@@ -80,7 +80,7 @@ class MinHeap {
     /**
      * The status of the heap is identical to the array list
      *
-     * @return true if the array list is not empty and false if the
+     * @return true if the array list is not empty or false if the
      * array list is empty
      */
     boolean isEmpty() {

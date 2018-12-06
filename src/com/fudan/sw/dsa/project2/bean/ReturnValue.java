@@ -3,10 +3,10 @@ package com.fudan.sw.dsa.project2.bean;
 import java.util.List;
 
 public class ReturnValue {
-    Address startPoint;
-    List<Address> subwayList;
-    Address endPoint;
-    double minutes;
+    private Address startPoint;
+    private List<Address> subwayList;
+    private Address endPoint;
+    private double minutes;
 
     public Address getStartPoint() {
         return startPoint;
