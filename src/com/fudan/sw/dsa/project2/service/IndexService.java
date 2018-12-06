@@ -29,13 +29,13 @@ public class IndexService {
                 //create the graph from file
                 graph = new Graph();
                 int totalLineNumber = 15;
-                String name;
+                String lineName;
                 String stationName;
                 String time1;
                 String time2;
                 String[] stationInfoArray;
                 for (int k = 0; k < totalLineNumber; k++) {
-                    name = bufferedReader.readLine();
+                    lineName = bufferedReader.readLine();
                     bufferedReader.readLine();
                     if (k == 9 || k == 10)
                         bufferedReader.readLine();
@@ -65,7 +65,7 @@ public class IndexService {
                             if (!stationInfoArray[4].equals("--")) time3 = stationInfoArray[4];
                             if (stationInfoArray[4].equals("--") && binStation == null)
                                 binStation = preStation;
-                            newStation = graph.addVertex(preStation, stationName, name, time1, time2,
+                            newStation = graph.addVertex(preStation, stationName, lineName, time1, time2,
                                     Double.parseDouble(stationInfoArray[2]),
                                     Double.parseDouble(stationInfoArray[1]));
                             time1 = time2;
@@ -76,7 +76,7 @@ public class IndexService {
                         while (!stationInfo.equals("Separating Line")) {
                             stationName = stationInfoArray[0];
                             time2 = stationInfoArray[4];
-                            newStation = graph.addVertex(preStation, stationName, name, time1, time2,
+                            newStation = graph.addVertex(preStation, stationName, lineName, time1, time2,
                                     Double.parseDouble(stationInfoArray[2]),
                                     Double.parseDouble(stationInfoArray[1]));
                             time1 = time2;
@@ -92,13 +92,13 @@ public class IndexService {
                             preStation = newStation;
                             stationName = stationInfoArray[0];
 
-                            if (name.equals("Line 4") && stationName.equals("浦电路"))
+                            if (lineName.equals("Line 4") && stationName.equals("浦电路"))
                                 stationName = stationName + "4";
-                            else if (name.equals("Line 6") && stationName.equals("浦电路"))
+                            else if (lineName.equals("Line 6") && stationName.equals("浦电路"))
                                 stationName = stationName + "6";
 
                             time2 = stationInfoArray[3];
-                            newStation = graph.addVertex(preStation, stationName, name, time1, time2,
+                            newStation = graph.addVertex(preStation, stationName, lineName, time1, time2,
                                     Double.parseDouble(stationInfoArray[2]),
                                     Double.parseDouble(stationInfoArray[1]));
                             time1 = time2;
