@@ -50,7 +50,6 @@ class Dijkstra {
         start.setDistance(0);
     }
 
-
     /**
      * The key component of the dijkstra algorithm, which relaxes the distance of the current
      * path. The relaxation is the process of decreasing the distance of the vertex if
@@ -78,8 +77,9 @@ class Dijkstra {
      * @param vertices1 All the vertices of the graph,
      * @param start     The source of the graph,
      * @param end       The sink of the graph.
+     * @return The traced path from the start station to the end station in the form of an
+     * array list
      */
-
     ArrayList<Vertex> getPath(ArrayList<Vertex> vertices1, Vertex start, Vertex end) {
         DIJKSTRA(vertices1, start, end);
         ArrayList<Vertex> path = new ArrayList<>();

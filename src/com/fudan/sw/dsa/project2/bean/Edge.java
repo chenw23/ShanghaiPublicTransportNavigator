@@ -8,18 +8,22 @@ package com.fudan.sw.dsa.project2.bean;
  * @author Wang, Chen
  */
 public class Edge {
+
     /**
      * the start station of the edge
      */
     private Vertex vertex1;
+
     /**
      * the destination of the edge
      */
     private Vertex vertex2;
+
     /**
      * the name of the edge
      */
     private String line;
+
     /**
      * the running time of the subway between two stations, i.e. vertex1
      * and vertex2
@@ -53,6 +57,8 @@ public class Edge {
     /**
      * Get the vertex at the other end of this edge of the requesting vertex
      *
+     * @param vertex The other vertex with which the returned edge will connect with
+     *               the current vertex
      * @return {@code null} if the edge does not connect the requesting vertex
      * the other vertex if the edge connects the edge and the requesting vertex
      */

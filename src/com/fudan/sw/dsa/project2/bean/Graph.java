@@ -24,8 +24,7 @@ public class Graph {
     /**
      * The total consuming time of the route, including the walking time and subway running
      * time.
-     *
-     * @implSpec It is updated both in and outside of this class and so does query.
+     * Note that it is updated both in and outside of this class and so does query.
      */
     public int time;
 
@@ -37,6 +36,7 @@ public class Graph {
      * Transfer time is added by 1 if the adjacent edges have different names.
      *
      * @param path the calculated path
+     * @return The times of the transfer
      */
     private static int transferTime(@NotNull ArrayList<Vertex> path) {
         int transferTime = 0;
@@ -51,6 +51,7 @@ public class Graph {
      * address. The straight line distance between the address and the station is calculated.
      *
      * @param address The start point or the end point
+     * @return The candidate vertices
      */
     private static ArrayList<Vertex> getCandidates(Address address) {
         ArrayList<Vertex> candidate = new ArrayList<>();
@@ -66,6 +67,7 @@ public class Graph {
      *
      * @param station The subway station
      * @param address The start address or the end address.
+     * @return The distance of the station and the address, in kilometers
      */
     private static double calculateDistance(@NotNull Vertex station, @NotNull Address address) {
         double startLatitude = station.getLatitude(),
@@ -106,12 +108,12 @@ public class Graph {
     /**
      * It parses the input string format time into the readable time and then
      * calculates the difference of the two times.
+     * Note that the start time should be earlier than the end time
+     * and the formats are according to the xls file the TA distributes
      *
      * @param start The time of the subway arriving at the previous station
      * @param end   The time of the subway arriving at the current station
      * @return The difference of the two times, in minute unit
-     * @implSpec The start time should be earlier than the end time
-     * @implNote The formats are according to the xls file the TA distributes
      */
     private static int getTime(@NotNull String start, @NotNull String end) {
         int length1 = start.length();
@@ -130,6 +132,8 @@ public class Graph {
      * While newing the vertex objects, this method also maintains the previous station
      * of the new station, the edge that connects the two edges, and the GPS info
      * of the new address.
+     * Note that the station name of the transfer stations on different lines is the
+     * same.
      *
      * @param preStation  The previous station of the current station along the edge
      * @param stationName The name of the station
@@ -138,8 +142,7 @@ public class Graph {
      * @param time2       The arriving time of the subway at the current station
      * @param latitude    Latitude of the current subway station
      * @param longitude   Longitude of the current subway station
-     * @implNote The station name of the transfer stations on different lines is the
-     * same
+     * @return The just newed vertex
      */
     public Vertex addVertex(Vertex preStation, String stationName, String lineName,
                             String time1, String time2, double latitude, double longitude) {
@@ -158,11 +161,11 @@ public class Graph {
 
     /**
      * Returns a station whose name matches the requesting address
+     * Note that the request address must match the name of the station exactly,
+     * otherwise it will return null
      *
      * @param address The address in the String format
      * @return A Vertex object that is a subway station
-     * @implNote The request address must match the name of the station exactly,
-     * otherwise it will return null
      */
     @Nullable
     public Vertex getStation(String address) {
@@ -176,10 +179,10 @@ public class Graph {
      * Search for the nearest station with the requesting address
      * It calculates the straight line distance of the address and the
      * subway station and iterates through the entire station list.
+     * Note that the address has no restriction
      *
      * @param address The address requested
      * @return The nearest station from the address
-     * @implSpec The address has no restriction
      */
     private Vertex nearestStation(Address address) {
         double distance = Double.MAX_VALUE;
@@ -196,17 +199,16 @@ public class Graph {
         return nearestStation;
     }
 
-
     /**
      * The core entrance of the algorithm, it calls the dijkstra algorithm and
      * gets a shortest weight path from the two subway stations.
+     * Note that the two vertices must be the stations that have already been in the
+     * station array list and This method does not call the dijkstra algorithm if the
+     * two requested vertices are the same.
      *
      * @param startV The source of the graph
      * @param endV   The sink of the graph
-     * @implSpec The two vertices must be the stations that have already been in the
-     * station array list
-     * @implNote This method does not call the dijkstra algorithm if the two requested
-     * vertices are the same.
+     * @return The path returned from the dijkstra algorithm
      */
     private ArrayList<Vertex> getPath(Vertex startV, Vertex endV) {
         ArrayList<Vertex> path = new ArrayList<>();
@@ -221,13 +223,13 @@ public class Graph {
     /**
      * The auxiliary method for the last two method for conveniently get the path and total
      * consuming time for any requested station and the specified start and end address.
+     * Note that the global variable time is refreshed and updated in this method
      *
      * @param vertexS Start subway station
      * @param vertexE End subway station
      * @param start   The start address
      * @param end     The end address
      * @return The same as get path method
-     * @implNote The global variable time is refreshed and updated in this method
      */
     private ArrayList<Vertex> getPathAndTime(Vertex vertexS, Vertex vertexE, Address start, Address end) {
         time = 0;
@@ -292,7 +294,6 @@ public class Graph {
         return returnRoute(finalPath);
     }
 
-
     /**
      * The starting entrance from the front end, the less transfer option
      * will call this method directly and this method will call the dijkstra
@@ -328,6 +329,4 @@ public class Graph {
         time = shortestTime;
         return returnRoute(finalPath);
     }
-
-
 }

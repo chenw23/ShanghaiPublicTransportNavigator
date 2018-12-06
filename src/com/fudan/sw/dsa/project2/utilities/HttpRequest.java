@@ -4,15 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
 
 class HttpRequest {
     /**
      * Send a GET request to the specified URL
      *
      * @param param The parameters of the sending request, with different parameters
-     *              separated by symbol "&"
+     *              separated by symbol "&amp;"
      * @return URL The response given by the remote server
      */
     static String sendGet(String param) {
@@ -30,11 +28,6 @@ class HttpRequest {
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             // Establish the real connection
             connection.connect();
-            // Get all the request header fields
-            Map<String, List<String>> map = connection.getHeaderFields();
-            // Iterate all the fields
-//            for (String key : map.keySet())
-//                System.out.println(key + "--->" + map.get(key));
             // A BufferedReader InputStreamReader is used to read the request
             in = new BufferedReader(new InputStreamReader(
                     connection.getInputStream()));

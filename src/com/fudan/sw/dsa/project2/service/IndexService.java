@@ -25,7 +25,8 @@ public class IndexService {
     public void createGraphFromFile() {
         if (graph == null) {
             FileGetter fileGetter = new FileGetter();
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileGetter.readFileFromClasspath()))) {
+            try (BufferedReader bufferedReader =
+                         new BufferedReader(new FileReader(fileGetter.readFileFromClasspath()))) {
                 //create the graph from file
                 graph = new Graph();
                 int totalLineNumber = 15;

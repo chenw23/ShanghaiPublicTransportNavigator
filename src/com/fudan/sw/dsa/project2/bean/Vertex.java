@@ -18,8 +18,7 @@ public class Vertex {
     /**
      * All the edges connecting the vertex
      * In the map, it is all the lines that connects the station
-     *
-     * @implNote An edge connects only two vertices and does not span longer
+     * Note that An edge connects only two vertices and does not span longer
      * The edges in the different direction are different edges
      * The same line that goes two directions at one station are denoted by two
      * different edges
@@ -34,8 +33,7 @@ public class Vertex {
     /**
      * This field is used in the dijkstra algorithm to denote the distance from the
      * source to this vertex.
-     *
-     * @implNote The distance of the source is 0
+     * Note that the distance of the source is 0
      */
     private int distance;
 
@@ -78,7 +76,6 @@ public class Vertex {
     void setDistance(int distance) {
         this.distance = distance;
     }
-
 
     /**
      * This method tests whether two vertices are adjacent. If not,

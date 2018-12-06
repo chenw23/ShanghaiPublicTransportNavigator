@@ -44,6 +44,8 @@ class MinHeap {
      * it is a recursive method that makes the requested node's left child and right child
      * in order. After the modification, it also recursively calls itself on the smallest
      * child so that the sub tree can get maintained.
+     *
+     * @param i The index of the element
      */
     private void minHeapify(int i) {
         int l = 2 * i + 1;
@@ -65,6 +67,8 @@ class MinHeap {
      * This method gets and removes the head element from the heap.
      * After extraction, it moves the last element to the top of the heap
      * and heapifies the entire heap.
+     *
+     * @return The head, i.e. the minimum element of the heap
      */
     Vertex extractMin() {
         if (heap.size() < 1)
