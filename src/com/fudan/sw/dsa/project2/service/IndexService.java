@@ -125,7 +125,7 @@ public class IndexService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        file = fileGetter.readFileFromClasspath("busLineValid.csv");
+        file = fileGetter.readFileFromClasspath("busLineValid.txt");
         File busGPSFile = fileGetter.readFileFromClasspath("busStationGPS.txt");
         try (FileReader fileReader = new FileReader(file)) {
             TreeMap<String, String> latitude = new TreeMap<>();
