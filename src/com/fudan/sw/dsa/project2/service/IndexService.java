@@ -128,13 +128,12 @@ public class IndexService {
         file = fileGetter.readFileFromClasspath("busLineValid.txt");
         File busGPSFile = fileGetter.readFileFromClasspath("busStationGPS.txt");
         try (FileReader fileReader = new FileReader(file)) {
-            TreeMap<String, String> latitude = new TreeMap<>();
-            TreeMap<String, String> longitude = new TreeMap<>();
+            TreeMap<String, String> latitude = new TreeMap<>(),
+                    longitude = new TreeMap<>();
             importBusStationPos(busGPSFile, latitude, longitude);
             busGraph = new Graph();
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line;
-            String stationName;
+            String line, stationName, preStationName;
             while ((line = bufferedReader.readLine()) != null) {
                 String lineName = line.split(",")[0];
                 String[] stations = line.split(",")[1].split("-");
@@ -149,12 +148,19 @@ public class IndexService {
                 Vertex preStation;
                 for (int i = 1; i < stations.length; i++) {
                     preStation = newStation;
+                    preStationName = stationName;
                     stationName = stations[i];
-                    newStation = busGraph.addVertex(preStation, stationName, lineName, "", "",
+                    int time = (int) (Graph.distance(Double.parseDouble(latitude.get(preStationName)),
+                            Double.parseDouble(latitude.get(stationName)),
+                            Double.parseDouble(longitude.get(preStationName)),
+                            Double.parseDouble(longitude.get(stationName))) * 3);
+                    String arrivingTime = String.format("08:%2d", time);
+                    newStation = busGraph.addVertex(preStation, stationName, lineName, "08:00", arrivingTime,
                             Double.parseDouble(latitude.get(stationName)),
                             Double.parseDouble(longitude.get(stationName)));
                 }
             }
+            System.out.println("The bus lines are imported successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -55,16 +55,18 @@ public class Graph {
      * @return The distance of the station and the address, in kilometers
      */
     private static double calculateDistance(@NotNull Vertex station, @NotNull Address address) {
-        double startLatitude = station.getLatitude(),
-                startLongitude = station.getLongitude(),
-                endLatitude = address.getLatitude(),
-                endLongitude = address.getLongitude();
-        double radLat1 = Math.toRadians(startLatitude);
-        double radLat2 = Math.toRadians(endLatitude);
-        double a = radLat1 - radLat2;
-        double b = Math.toRadians(startLongitude) - Math.toRadians(endLongitude);
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
-                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+        return distance(station.getLatitude(), address.getLatitude(),
+                station.getLongitude(), address.getLongitude());
+    }
+
+    public static double distance(double startLatitude, double endLatitude,
+                                  double startLongitude, double endLongitude) {
+        double radLat1 = Math.toRadians(startLatitude),
+                radLat2 = Math.toRadians(endLatitude),
+                a = radLat1 - radLat2,
+                b = Math.toRadians(startLongitude) - Math.toRadians(endLongitude),
+                s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                        Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
         s = s * 6378.137;
         s = Math.round(s * 10000.0) / 10000.0;
         return s;
