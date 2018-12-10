@@ -150,7 +150,7 @@ public class IndexService {
                     preStation = newStation;
                     preStationName = stationName;
                     stationName = stations[i];
-                    int time = (int) (Graph.distance(Double.parseDouble(latitude.get(preStationName)),
+                    int time = -(int) Math.abs(Graph.distance(Double.parseDouble(latitude.get(preStationName)),
                             Double.parseDouble(latitude.get(stationName)),
                             Double.parseDouble(longitude.get(preStationName)),
                             Double.parseDouble(longitude.get(stationName))) * 3);
@@ -186,6 +186,7 @@ public class IndexService {
         Address startPoint = new Address(startAddress, startLongitude, startLatitude);
         Address endPoint = new Address(endAddress, endLongitude, endLatitude);
         ArrayList<Address> route = new ArrayList<>();
+        System.out.println(busGraph.shortestWalking(startPoint, endPoint));
         switch (choose) {
             case "1":
                 //步行最少
