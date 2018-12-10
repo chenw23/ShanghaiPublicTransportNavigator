@@ -10,6 +10,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
+
+import static com.fudan.sw.dsa.project2.utilities.TransferStationOrganizer.importBusStationPos;
 
 /**
  * this class is what you need to complete
@@ -122,14 +125,35 @@ public class IndexService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        file = fileGetter.readFileFromClasspath("busLine.csv");
+        file = fileGetter.readFileFromClasspath("busLineValid.csv");
+        File busGPSFile = fileGetter.readFileFromClasspath("busStationGPS.txt");
         try (FileReader fileReader = new FileReader(file)) {
+            TreeMap<String, String> latitude = new TreeMap<>();
+            TreeMap<String, String> longitude = new TreeMap<>();
+            importBusStationPos(busGPSFile, latitude, longitude);
+            busGraph = new Graph();
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
+            String stationName;
             while ((line = bufferedReader.readLine()) != null) {
                 String lineName = line.split(",")[0];
                 String[] stations = line.split(",")[1].split("-");
-
+                stationName = stations[0];
+                Vertex newStation = busGraph.getStation(stationName);
+                if (newStation == null) {
+                    newStation = new Vertex(stationName,
+                            Double.parseDouble(latitude.get(stationName)),
+                            Double.parseDouble(longitude.get(stationName)));
+                    busGraph.vertices.add(newStation);
+                }
+                Vertex preStation;
+                for (int i = 1; i < stations.length; i++) {
+                    preStation = newStation;
+                    stationName = stations[i];
+                    newStation = busGraph.addVertex(preStation, stationName, lineName, "", "",
+                            Double.parseDouble(latitude.get(stationName)),
+                            Double.parseDouble(longitude.get(stationName)));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

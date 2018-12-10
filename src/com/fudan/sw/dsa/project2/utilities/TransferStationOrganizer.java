@@ -25,18 +25,14 @@ public class TransferStationOrganizer {
         File busLineFile = new File("busLine.csv");
         System.out.println(busLineFile.getAbsolutePath());
         File busGPSFile = new File("busStationGPS.txt");
-        try (Scanner busLine = new Scanner(busLineFile);
-             Scanner scanner = new Scanner(busGPSFile)) {
+        try (Scanner busLine = new Scanner(busLineFile)
+        ) {
             ArrayList<String> busLineString = new ArrayList<>();
             while (busLine.hasNextLine())
                 busLineString.add(busLine.nextLine());
             TreeMap<String, String> latitude = new TreeMap<>();
             TreeMap<String, String> longitude = new TreeMap<>();
-            while (scanner.hasNextLine()) {
-                String[] line = scanner.nextLine().split(" ");
-                latitude.put(line[0], line[1]);
-                longitude.put(line[0], line[2]);
-            }
+            importBusStationPos(busGPSFile, latitude, longitude);
             ArrayList<String> stations = new ArrayList<>();
             for (String station : busLineString)
                 stations.addAll(Arrays.asList(station.split(",")[1].split("-")));
@@ -57,6 +53,16 @@ public class TransferStationOrganizer {
                 System.out.println(line);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void importBusStationPos(File file, TreeMap<String, String> latitude, TreeMap<String, String> longitude)
+            throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(" ");
+            latitude.put(line[0], line[1]);
+            longitude.put(line[0], line[2]);
         }
     }
 }
