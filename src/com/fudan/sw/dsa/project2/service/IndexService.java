@@ -150,12 +150,11 @@ public class IndexService {
                     preStation = newStation;
                     preStationName = stationName;
                     stationName = stations[i];
-                    int time = -(int) Math.abs(Graph.distance(Double.parseDouble(latitude.get(preStationName)),
+                    int time = (int) Math.abs(Graph.distance(Double.parseDouble(latitude.get(preStationName)),
                             Double.parseDouble(latitude.get(stationName)),
                             Double.parseDouble(longitude.get(preStationName)),
                             Double.parseDouble(longitude.get(stationName))) * 3);
-                    String arrivingTime = String.format("08:%2d", time);
-                    newStation = busGraph.addVertex(preStation, stationName, lineName, "08:00", arrivingTime,
+                    newStation = busGraph.addVertex(preStation, stationName, lineName, "busGraph", Integer.toString(time),
                             Double.parseDouble(latitude.get(stationName)),
                             Double.parseDouble(longitude.get(stationName)));
                 }
@@ -186,11 +185,10 @@ public class IndexService {
         Address startPoint = new Address(startAddress, startLongitude, startLatitude);
         Address endPoint = new Address(endAddress, endLongitude, endLatitude);
         ArrayList<Address> route = new ArrayList<>();
-        System.out.println(busGraph.shortestWalking(startPoint, endPoint));
         switch (choose) {
             case "1":
                 //步行最少
-                route = subwayGraph.shortestWalking(startPoint, endPoint);
+                route = busGraph.shortestWalking(startPoint, endPoint);
                 break;
             case "2":
                 //换乘最少

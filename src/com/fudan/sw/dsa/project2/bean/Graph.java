@@ -102,6 +102,8 @@ public class Graph {
      * @return The difference of the two times, in minute unit
      */
     private static int getTime(@NotNull String start, @NotNull String end) {
+        if (start.equals("busGraph"))
+            return Integer.parseInt(end);
         int length1 = start.length();
         int length2 = end.length();
         int minute = (int) end.charAt(length2 - 1) - (int) start.charAt(length1 - 1);
