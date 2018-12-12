@@ -188,7 +188,7 @@ public class IndexService {
         switch (choose) {
             case "1":
                 //步行最少
-                route = busGraph.shortestWalking(startPoint, endPoint);
+                route = subwayGraph.shortestWalking(startPoint, endPoint);
                 break;
             case "2":
                 //换乘最少

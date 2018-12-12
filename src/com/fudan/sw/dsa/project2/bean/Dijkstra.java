@@ -3,6 +3,7 @@ package com.fudan.sw.dsa.project2.bean;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 /**
@@ -25,14 +26,14 @@ class Dijkstra {
      */
     private void DIJKSTRA(ArrayList<Vertex> vertices, Vertex start, Vertex end) {
         initializeSingleSource(vertices, start);
-        MinHeap minHeap = new MinHeap(vertices);
-        while (!minHeap.isEmpty()) {
-            Vertex u = minHeap.extractMin();
-            if (u == end)
-                break;
-            for (Vertex vertex : u.getAdjacentVertices())
-                relax(u, vertex);
-            minHeap.buildMinHeap();
+        PriorityQueue<Vertex> priorityQueue = new PriorityQueue<>(vertices);
+        Vertex currentVertex;
+        while (!priorityQueue.isEmpty()) {
+            currentVertex = priorityQueue.poll();
+            if (currentVertex == end) break;
+            for (Vertex vertex : currentVertex.getAdjacentVertices())
+                relax(currentVertex, vertex);
+            priorityQueue = new PriorityQueue<>(new ArrayList<>(priorityQueue));
         }
     }
 
