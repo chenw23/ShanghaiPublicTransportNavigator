@@ -60,27 +60,7 @@ public class Vertex implements Comparable<Vertex> {
      * negative integer, zero, or a positive integer as this object is less
      * than, equal to, or greater than the specified object.
      *
-     * <p>This implementation ensures
-     * {@code sgn(x.compareTo(y)) == -sgn(y.compareTo(x))}
-     * for all {@code x} and {@code y}.  (This
-     * implies that {@code x.compareTo(y)} throws an exception iff
-     * {@code y.compareTo(x)} throws an exception.)
-     *
-     * <p>The implementation also ensures that the relation is transitive:
-     * {@code (x.compareTo(y) > 0 && y.compareTo(z) > 0)} implies
-     * {@code x.compareTo(z) > 0}.
-     *
-     * <p>Finally, the implementation ensures that {@code x.compareTo(y)==0}
-     * implies that {@code sgn(x.compareTo(z)) == sgn(y.compareTo(z))}, for
-     * all {@code z}.
-     *
      * <p>Note: this class has a natural ordering that is inconsistent with equals.
-     *
-     * <p>In the foregoing description, the notation
-     * {@code sgn(}<i>expression</i>{@code )} designates the mathematical
-     * <i>signum</i> function, which is defined to return one of {@code -1},
-     * {@code 0}, or {@code 1} according to whether the value of
-     * <i>expression</i> is negative, zero, or positive, respectively.
      *
      * @param o the object to be compared.
      * @return a negative integer, zero, or a positive integer as this object
