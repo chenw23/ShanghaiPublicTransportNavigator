@@ -23,6 +23,7 @@ class Dijkstra {
      * @param vertices All the vertices in the graph to implement the sort on;
      * @param start    The source of the graph;
      * @param end      The sink of the graph.
+     * @see PriorityQueue
      */
     private void DIJKSTRA(ArrayList<Vertex> vertices, Vertex start, Vertex end) {
         initializeSingleSource(vertices, start);

@@ -3650,7 +3650,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
             var ZipEntry = require('./zipEntry');
             var utf8 = require('./utf8');
             var support = require('./support');
-
 //  class ZipEntries {{{
             /**
              * All the entries in the zip file.
@@ -4744,7 +4743,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
                 var draining;
                 var queue = [];
-
 //named nextTick for less confusing stack traces
                 function nextTick() {
                     draining = true;

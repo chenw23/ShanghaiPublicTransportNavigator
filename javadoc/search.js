@@ -32,7 +32,6 @@ var catSearchTags = "SearchTags";
 var highlight = "<span class=\"resultHighlight\">$&</span>";
 var camelCaseRegexp = "";
 var secondaryMatcher = "";
-
 function getHighlightedText(item) {
     var ccMatcher = new RegExp(camelCaseRegexp);
     var label = item.replace(ccMatcher, highlight);
@@ -41,7 +40,6 @@ function getHighlightedText(item) {
     }
     return label;
 }
-
 function getURLPrefix(ui) {
     var urlPrefix = "";
     if (useModuleDirectories) {
@@ -63,7 +61,6 @@ function getURLPrefix(ui) {
     }
     return urlPrefix;
 }
-
 var watermark = 'Search';
 $(function () {
     $("#search").val('');

@@ -28,7 +28,6 @@ var packageSearchIndex;
 var typeSearchIndex;
 var memberSearchIndex;
 var tagSearchIndex;
-
 function loadScripts(doc, tag) {
     createElem(doc, tag, 'jquery/jszip/dist/jszip.js');
     createElem(doc, tag, 'jquery/jszip-utils/dist/jszip-utils.js');

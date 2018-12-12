@@ -17,14 +17,19 @@ memberSearchIndex = [{
     "c": "Vertex",
     "l": "adjacentVertices"
 }, {
-    "p": "com.fudan.sw.dsa.project2.bean",
-    "c": "MinHeap",
-    "l": "buildMinHeap()"
+    "p": "com.fudan.sw.dsa.project2.service",
+    "c": "IndexService",
+    "l": "busGraph"
 }, {
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "Graph",
     "l": "calculateDistance(Vertex, Address)",
     "url": "calculateDistance(com.fudan.sw.dsa.project2.bean.Vertex,com.fudan.sw.dsa.project2.bean.Address)"
+}, {
+    "p": "com.fudan.sw.dsa.project2.bean",
+    "c": "Vertex",
+    "l": "compareTo(Vertex)",
+    "url": "compareTo(com.fudan.sw.dsa.project2.bean.Vertex)"
 }, {
     "p": "com.fudan.sw.dsa.project2.config",
     "c": "WebConfig",
@@ -54,6 +59,11 @@ memberSearchIndex = [{
     "url": "DIJKSTRA(java.util.ArrayList,com.fudan.sw.dsa.project2.bean.Vertex,com.fudan.sw.dsa.project2.bean.Vertex)"
 }, {"p": "com.fudan.sw.dsa.project2.bean", "c": "Vertex", "l": "distance"}, {
     "p": "com.fudan.sw.dsa.project2.bean",
+    "c": "Graph",
+    "l": "distance(double, double, double, double)",
+    "url": "distance(double,double,double,double)"
+}, {
+    "p": "com.fudan.sw.dsa.project2.bean",
     "c": "Edge",
     "l": "Edge(Vertex, Vertex, String, int)",
     "url": "%3Cinit%3E(com.fudan.sw.dsa.project2.bean.Vertex,com.fudan.sw.dsa.project2.bean.Vertex,java.lang.String,int)"
@@ -61,14 +71,6 @@ memberSearchIndex = [{
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "ReturnValue",
     "l": "endPoint"
-}, {
-    "p": "com.fudan.sw.dsa.project2.bean",
-    "c": "MinHeap",
-    "l": "extractMin()"
-}, {
-    "p": "com.fudan.sw.dsa.project2.constant",
-    "c": "FileGetter",
-    "l": "FILE_PATH"
 }, {
     "p": "com.fudan.sw.dsa.project2.constant",
     "c": "FileGetter",
@@ -172,19 +174,20 @@ memberSearchIndex = [{
     "l": "getTime(String, String)",
     "url": "getTime(java.lang.String,java.lang.String)"
 }, {"p": "com.fudan.sw.dsa.project2.bean", "c": "Edge", "l": "getWeight()"}, {
-    "p": "com.fudan.sw.dsa.project2.service",
-    "c": "IndexService",
-    "l": "graph"
-}, {
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "Graph",
     "l": "Graph()",
     "url": "%3Cinit%3E()"
-}, {"p": "com.fudan.sw.dsa.project2.bean", "c": "MinHeap", "l": "heap"}, {
+}, {
     "p": "com.fudan.sw.dsa.project2.utilities",
     "c": "HttpRequest",
     "l": "HttpRequest()",
     "url": "%3Cinit%3E()"
+}, {
+    "p": "com.fudan.sw.dsa.project2.utilities",
+    "c": "TransferStationOrganizer",
+    "l": "importBusStationPos(File, TreeMap<String, String>, TreeMap<String, String>)",
+    "url": "importBusStationPos(java.io.File,java.util.TreeMap,java.util.TreeMap)"
 }, {
     "p": "com.fudan.sw.dsa.project2.controller",
     "c": "IndexController",
@@ -208,11 +211,11 @@ memberSearchIndex = [{
     "c": "Dijkstra",
     "l": "initializeSingleSource(ArrayList<Vertex>, Vertex)",
     "url": "initializeSingleSource(java.util.ArrayList,com.fudan.sw.dsa.project2.bean.Vertex)"
-}, {"p": "com.fudan.sw.dsa.project2.bean", "c": "MinHeap", "l": "isEmpty()"}, {
+}, {"p": "com.fudan.sw.dsa.project2.bean", "c": "Address", "l": "latitude"}, {
     "p": "com.fudan.sw.dsa.project2.bean",
-    "c": "Address",
+    "c": "Vertex",
     "l": "latitude"
-}, {"p": "com.fudan.sw.dsa.project2.bean", "c": "Vertex", "l": "latitude"}, {
+}, {
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "Graph",
     "l": "lessTransfer(Address, Address)",
@@ -235,20 +238,16 @@ memberSearchIndex = [{
     "c": "Main",
     "l": "main(String[])",
     "url": "main(java.lang.String[])"
+}, {
+    "p": "com.fudan.sw.dsa.project2.utilities",
+    "c": "TransferStationOrganizer",
+    "l": "main(String[])",
+    "url": "main(java.lang.String[])"
 }, {"p": "com.fudan.sw.dsa.project2.config", "c": "WebConfig", "l": "mapper()"}, {
     "p": "com.fudan.sw.dsa.project2.bean",
-    "c": "MinHeap",
-    "l": "MinHeap(ArrayList<Vertex>)",
-    "url": "%3Cinit%3E(java.util.ArrayList)"
-}, {
-    "p": "com.fudan.sw.dsa.project2.bean",
-    "c": "MinHeap",
-    "l": "minHeapify(int)"
-}, {"p": "com.fudan.sw.dsa.project2.bean", "c": "ReturnValue", "l": "minutes"}, {
-    "p": "com.fudan.sw.dsa.project2.bean",
-    "c": "Vertex",
-    "l": "name"
-}, {
+    "c": "ReturnValue",
+    "l": "minutes"
+}, {"p": "com.fudan.sw.dsa.project2.bean", "c": "Vertex", "l": "name"}, {
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "Graph",
     "l": "nearestStation(Address)",
@@ -256,12 +255,17 @@ memberSearchIndex = [{
 }, {"p": "com.fudan.sw.dsa.project2.bean", "c": "Vertex", "l": "preVertex"}, {
     "p": "com.fudan.sw.dsa.project2.constant",
     "c": "FileGetter",
-    "l": "readFileFromClasspath()"
+    "l": "readFileFromClasspath(String)",
+    "url": "readFileFromClasspath(java.lang.String)"
 }, {
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "Dijkstra",
     "l": "relax(Vertex, Vertex)",
     "url": "relax(com.fudan.sw.dsa.project2.bean.Vertex,com.fudan.sw.dsa.project2.bean.Vertex)"
+}, {
+    "p": "com.fudan.sw.dsa.project2.utilities",
+    "c": "TransferStationOrganizer",
+    "l": "removeInvalidData()"
 }, {
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "Graph",
@@ -348,10 +352,19 @@ memberSearchIndex = [{
     "l": "submitSearch(Map<String, Object>)",
     "url": "submitSearch(java.util.Map)"
 }, {
+    "p": "com.fudan.sw.dsa.project2.service",
+    "c": "IndexService",
+    "l": "subwayGraph"
+}, {
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "ReturnValue",
     "l": "subwayList"
 }, {"p": "com.fudan.sw.dsa.project2.bean", "c": "Graph", "l": "time"}, {
+    "p": "com.fudan.sw.dsa.project2.utilities",
+    "c": "TransferStationOrganizer",
+    "l": "TransferStationOrganizer()",
+    "url": "%3Cinit%3E()"
+}, {
     "p": "com.fudan.sw.dsa.project2.bean",
     "c": "Graph",
     "l": "transferTime(ArrayList<Vertex>)",
