@@ -185,6 +185,7 @@ public class IndexService {
         Address startPoint = new Address(startAddress, startLongitude, startLatitude);
         Address endPoint = new Address(endAddress, endLongitude, endLatitude);
         ArrayList<Address> route = new ArrayList<>();
+        long startTime = System.nanoTime();
         switch (choose) {
             case "1":
                 //步行最少
@@ -212,6 +213,8 @@ public class IndexService {
                 break;
             default:
         }
+        System.out.println("\nThe time used for the query is " +
+                (System.nanoTime() - startTime) / 1000 + " microseconds");
         ReturnValue returnValue = new ReturnValue();
         returnValue.setStartPoint(startPoint);
         returnValue.setEndPoint(endPoint);
