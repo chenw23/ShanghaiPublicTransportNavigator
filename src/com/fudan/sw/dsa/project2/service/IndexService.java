@@ -198,6 +198,18 @@ public class IndexService {
                 //时间最短
                 route = subwayGraph.shortestTime(startPoint, endPoint);
                 break;
+            case "4":
+                //步行最少
+                route = busGraph.shortestWalking(startPoint, endPoint);
+                break;
+            case "5":
+                //换乘最少
+                route = busGraph.lessTransfer(startPoint, endPoint);
+                break;
+            case "6":
+                //时间最短
+                route = busGraph.shortestTime(startPoint, endPoint);
+                break;
             default:
         }
         ReturnValue returnValue = new ReturnValue();
