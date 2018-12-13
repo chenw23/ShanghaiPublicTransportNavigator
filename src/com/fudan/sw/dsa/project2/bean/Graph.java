@@ -89,6 +89,10 @@ public class Graph {
             route.add(new Address(vertex.getName(),
                     Double.toString(vertex.getLongitude()),
                     Double.toString(vertex.getLatitude())));
+        System.out.print(path.get(0).getName());
+        for (int i = 1; i < path.size(); i++)
+            System.out.print("(by " + path.get(i).getEdge(path.get(i - 1)).getLine() + " ) -> to "
+                    + path.get(i).getName());
         return route;
     }
 
