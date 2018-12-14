@@ -2,7 +2,7 @@ package com.fudan.sw.dsa.project2.bean;
 
 /**
  * The abstraction of the edges in the graph.
- * The weight indicates the running time of the subway between two stations, the two vertices
+ * The weight indicates the running totalTime of the subway between two stations, the two vertices
  * variable shows which vertex it is connecting and the line String is the name of the edge.
  *
  * @author Wang, Chen
@@ -25,7 +25,7 @@ public class Edge {
     private String line;
 
     /**
-     * the running time of the subway between two stations, i.e. vertex1
+     * the running totalTime of the subway between two stations, i.e. vertex1
      * and vertex2
      */
     private int weight;
@@ -36,7 +36,7 @@ public class Edge {
      * @param vertex1 the start station of the edge
      * @param vertex2 the destination of the edge
      * @param line    the name of the edge
-     * @param weight  the running time of the subway between two stations, i.e. vertex1
+     * @param weight  the running totalTime of the subway between two stations, i.e. vertex1
      *                and vertex2
      */
     public Edge(Vertex vertex1, Vertex vertex2, String line, int weight) {

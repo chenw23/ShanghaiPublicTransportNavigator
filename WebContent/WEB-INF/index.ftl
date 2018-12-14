@@ -141,7 +141,8 @@
                     str += "&nbsp;&nbsp;->&nbsp;&nbsp;" + data.subwayList[i].address;
                 str += "&nbsp;&nbsp;->&nbsp;&nbsp;" + data.endPoint.address + "<br/>";
                 str += "花费时间为:&nbsp;&nbsp; " + data.minutes + "&nbsp;分钟";
-                $("#resultDiv").html(str);
+                let walkingTime = "。步行时间为： " + data.walkingMinutes + " 分钟";
+                $("#resultDiv").html(str + walkingTime);
             },
             error: function (data) {
                 alert("很抱歉,服务器出错!");

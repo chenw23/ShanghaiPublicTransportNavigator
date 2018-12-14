@@ -26,7 +26,8 @@ public class Graph {
      * time.
      * Note that it is updated both in and outside of this class and so does query.
      */
-    public int time;
+    public int totalTime = 0;
+    public int walkingTime = 0;
 
     public Graph() {
     }
@@ -198,7 +199,8 @@ public class Graph {
                 nearestStation = currentStation;
             }
         }
-        time += distance * 12;
+        walkingTime += distance * 12;
+        totalTime += walkingTime;
         return nearestStation;
     }
 
@@ -235,11 +237,12 @@ public class Graph {
      * @return The same as get path method
      */
     private ArrayList<Vertex> getPathAndTime(Vertex vertexS, Vertex vertexE, Address start, Address end) {
-        time = 0;
+        totalTime = 0;
+        walkingTime = 0;
         ArrayList<Vertex> path = getPath(vertexS, vertexE);
-        time = path.get(path.size() - 1).getDistance() +
-                (int) ((calculateDistance(vertexS, start) * 12)) +
+        walkingTime = (int) ((calculateDistance(vertexS, start) * 12)) +
                 (int) (calculateDistance(vertexE, end) * 12);
+        totalTime = path.get(path.size() - 1).getDistance() + walkingTime;
         return path;
     }
 
@@ -254,13 +257,14 @@ public class Graph {
      * methods.
      */
     public ArrayList<Address> shortestWalking(Address start, Address end) {
-        time = 0;
+        totalTime = 0;
+        walkingTime = 0;
         Vertex startV = nearestStation(start);
         Vertex endV = nearestStation(end);
         if (startV == null || endV == null)
             return null;
         ArrayList<Vertex> path = getPath(startV, endV);
-        time += path.get(path.size() - 1).getDistance();
+        totalTime += path.get(path.size() - 1).getDistance();
         return returnRoute(path);
     }
 
@@ -277,8 +281,9 @@ public class Graph {
      * methods.
      */
     public ArrayList<Address> shortestTime(Address start, Address end) {
-        time = 0;
-        int shortestTime = Integer.MAX_VALUE;
+        totalTime = 0;
+        walkingTime = 0;
+        int shortestTime = Integer.MAX_VALUE, shortestWalkingTime = Integer.MAX_VALUE;
         ArrayList<Vertex> path;
         ArrayList<Vertex> candidateStartStation = getCandidates(start);
         ArrayList<Vertex> candidateEndStation = getCandidates(end);
@@ -288,12 +293,14 @@ public class Graph {
         for (Vertex vertexS : candidateStartStation)
             for (Vertex vertexE : candidateEndStation) {
                 path = getPathAndTime(vertexS, vertexE, start, end);
-                if (time < shortestTime) {
+                if (totalTime < shortestTime) {
                     finalPath = path;
-                    shortestTime = time;
+                    shortestTime = totalTime;
+                    shortestWalkingTime = walkingTime;
                 }
             }
-        time = shortestTime;
+        totalTime = shortestTime;
+        walkingTime = shortestWalkingTime;
         return returnRoute(finalPath);
     }
 
@@ -310,9 +317,11 @@ public class Graph {
      * methods.
      */
     public ArrayList<Address> lessTransfer(Address start, Address end) {
-        time = 0;
-        int leastTransferNumber = Integer.MAX_VALUE;
-        int shortestTime = Integer.MAX_VALUE;
+        totalTime = 0;
+        walkingTime = 0;
+        int leastTransferNumber = Integer.MAX_VALUE,
+                shortestTime = Integer.MAX_VALUE,
+                shortestWalkingTime = Integer.MAX_VALUE;
         ArrayList<Vertex> finalPath = null;
         ArrayList<Vertex> candidateStartStation = getCandidates(start);
         ArrayList<Vertex> candidateEndStation = getCandidates(end);
@@ -323,13 +332,15 @@ public class Graph {
                 ArrayList<Vertex> path = getPathAndTime(vertexS, vertexE, start, end);
                 int transferTime = transferTime(path);
                 if (transferTime < leastTransferNumber ||
-                        transferTime == leastTransferNumber && time < shortestTime) {
+                        transferTime == leastTransferNumber && totalTime < shortestTime) {
                     finalPath = path;
                     leastTransferNumber = transferTime;
-                    shortestTime = time;
+                    shortestTime = totalTime;
+                    shortestWalkingTime = walkingTime;
                 }
             }
-        time = shortestTime;
+        totalTime = shortestTime;
+        walkingTime = shortestWalkingTime;
         return returnRoute(finalPath);
     }
 }
