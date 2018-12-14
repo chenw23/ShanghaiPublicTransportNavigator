@@ -216,8 +216,13 @@ public class IndexService {
         returnValue.setStartPoint(startPoint);
         returnValue.setEndPoint(endPoint);
         returnValue.setSubwayList(route);
-        returnValue.setMinutes(subwayGraph.totalTime);
-        returnValue.setWalkingMinutes(subwayGraph.walkingTime);
+        if (choose.compareTo("3") <= 0) {
+            returnValue.setMinutes(subwayGraph.totalTime);
+            returnValue.setWalkingMinutes(subwayGraph.walkingTime);
+        } else {
+            returnValue.setMinutes(busGraph.totalTime);
+            returnValue.setWalkingMinutes(busGraph.walkingTime);
+        }
         return returnValue;
     }
 }

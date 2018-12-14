@@ -126,6 +126,10 @@ public class Graph {
         for (Vertex vertex : vertices)
             if (calculateDistance(vertex, address) < 4)
                 candidate.add(vertex);
+        if (candidate.size() > 5) {
+            candidate.sort(null);
+            candidate = new ArrayList<>(candidate.subList(0, 4));
+        }
         return candidate;
     }
 
