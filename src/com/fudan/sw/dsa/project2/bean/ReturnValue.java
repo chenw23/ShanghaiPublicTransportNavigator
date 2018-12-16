@@ -7,7 +7,7 @@ public class ReturnValue {
     private List<Address> subwayList;
     private Address endPoint;
     private double minutes;
-    private double walkingMinutes;
+    private double walkingDistance;
 
     public Address getStartPoint() {
         return startPoint;
@@ -41,11 +41,11 @@ public class ReturnValue {
         this.minutes = minutes;
     }
 
-    public double getWalkingMinutes() {
-        return walkingMinutes;
+    public double getWalkingDistance() {
+        return walkingDistance;
     }
 
-    public void setWalkingMinutes(double walkingMinutes) {
-        this.walkingMinutes = walkingMinutes;
+    public void setWalkingDistance(double walkingDistance) {
+        this.walkingDistance = walkingDistance;
     }
 }

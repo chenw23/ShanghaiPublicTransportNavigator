@@ -125,6 +125,8 @@ public class IndexService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         file = fileGetter.readFileFromClasspath("busLineValid.txt");
         File busGPSFile = fileGetter.readFileFromClasspath("busStationGPS.txt");
         try (FileReader fileReader = new FileReader(file)) {
@@ -221,10 +223,10 @@ public class IndexService {
         returnValue.setSubwayList(route);
         if (choose.compareTo("3") <= 0) {
             returnValue.setMinutes(subwayGraph.totalTime);
-            returnValue.setWalkingMinutes(subwayGraph.walkingTime);
+            returnValue.setWalkingDistance(subwayGraph.walkingDistance);
         } else {
             returnValue.setMinutes(busGraph.totalTime);
-            returnValue.setWalkingMinutes(busGraph.walkingTime);
+            returnValue.setWalkingDistance(busGraph.walkingDistance);
         }
         return returnValue;
     }

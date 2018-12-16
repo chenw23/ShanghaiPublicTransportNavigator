@@ -27,7 +27,7 @@ public class Graph {
      * Note that it is updated both in and outside of this class and so does query.
      */
     public int totalTime = 0;
-    public int walkingTime = 0;
+    public double walkingDistance = 0;
 
     public Graph() {
     }
@@ -56,8 +56,10 @@ public class Graph {
      * @return The distance of the station and the address, in kilometers
      */
     private static double calculateDistance(@NotNull Vertex station, @NotNull Address address) {
-        return distance(station.getLatitude(), address.getLatitude(),
+        double distance = distance(station.getLatitude(), address.getLatitude(),
                 station.getLongitude(), address.getLongitude());
+        station.setAddressDistance(distance);
+        return distance;
     }
 
     public static double distance(double startLatitude, double endLatitude,
@@ -131,7 +133,7 @@ public class Graph {
             if (calculateDistance(vertex, address) < 4)
                 candidate.add(vertex);
         if (candidate.size() > 5) {
-            candidate.sort(null);
+            candidate.sort(new Vertex.FinishTimeComparator());
             candidate = new ArrayList<>(candidate.subList(0, 4));
         }
         return candidate;
@@ -207,8 +209,8 @@ public class Graph {
                 nearestStation = currentStation;
             }
         }
-        walkingTime += distance * 12;
-        totalTime += walkingTime;
+        walkingDistance += distance;
+        totalTime += distance * 12;
         return nearestStation;
     }
 
@@ -246,11 +248,10 @@ public class Graph {
      */
     private ArrayList<Vertex> getPathAndTime(Vertex vertexS, Vertex vertexE, Address start, Address end) {
         totalTime = 0;
-        walkingTime = 0;
+        walkingDistance = 0;
         ArrayList<Vertex> path = getPath(vertexS, vertexE);
-        walkingTime = (int) ((calculateDistance(vertexS, start) * 12)) +
-                (int) (calculateDistance(vertexE, end) * 12);
-        totalTime = path.get(path.size() - 1).getDistance() + walkingTime;
+        walkingDistance = calculateDistance(vertexS, start) + calculateDistance(vertexE, end);
+        totalTime = path.get(path.size() - 1).getDistance() + (int) (walkingDistance * 12);
         return path;
     }
 
@@ -266,7 +267,7 @@ public class Graph {
      */
     public ArrayList<Address> shortestWalking(Address start, Address end) {
         totalTime = 0;
-        walkingTime = 0;
+        walkingDistance = 0;
         Vertex startV = nearestStation(start);
         Vertex endV = nearestStation(end);
         if (startV == null || endV == null)
@@ -290,8 +291,9 @@ public class Graph {
      */
     public ArrayList<Address> shortestTime(Address start, Address end) {
         totalTime = 0;
-        walkingTime = 0;
-        int shortestTime = Integer.MAX_VALUE, shortestWalkingTime = Integer.MAX_VALUE;
+        walkingDistance = 0;
+        int shortestTime = Integer.MAX_VALUE;
+        double shortestWalkingDistance = Integer.MAX_VALUE;
         ArrayList<Vertex> path;
         ArrayList<Vertex> candidateStartStation = getCandidates(start);
         ArrayList<Vertex> candidateEndStation = getCandidates(end);
@@ -304,11 +306,11 @@ public class Graph {
                 if (totalTime < shortestTime) {
                     finalPath = path;
                     shortestTime = totalTime;
-                    shortestWalkingTime = walkingTime;
+                    shortestWalkingDistance = walkingDistance;
                 }
             }
         totalTime = shortestTime;
-        walkingTime = shortestWalkingTime;
+        walkingDistance = shortestWalkingDistance;
         return returnRoute(finalPath);
     }
 
@@ -326,10 +328,10 @@ public class Graph {
      */
     public ArrayList<Address> lessTransfer(Address start, Address end) {
         totalTime = 0;
-        walkingTime = 0;
+        walkingDistance = 0;
         int leastTransferNumber = Integer.MAX_VALUE,
-                shortestTime = Integer.MAX_VALUE,
-                shortestWalkingTime = Integer.MAX_VALUE;
+                shortestTime = Integer.MAX_VALUE;
+        double shortestWalkingDistance = Integer.MAX_VALUE;
         ArrayList<Vertex> finalPath = null;
         ArrayList<Vertex> candidateStartStation = getCandidates(start);
         ArrayList<Vertex> candidateEndStation = getCandidates(end);
@@ -344,11 +346,11 @@ public class Graph {
                     finalPath = path;
                     leastTransferNumber = transferTime;
                     shortestTime = totalTime;
-                    shortestWalkingTime = walkingTime;
+                    shortestWalkingDistance = walkingDistance;
                 }
             }
         totalTime = shortestTime;
-        walkingTime = shortestWalkingTime;
+        walkingDistance = shortestWalkingDistance;
         return returnRoute(finalPath);
     }
 }

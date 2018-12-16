@@ -141,7 +141,7 @@
                     str += "&nbsp;&nbsp;->&nbsp;&nbsp;" + data.subwayList[i].address;
                 str += "&nbsp;&nbsp;->&nbsp;&nbsp;" + data.endPoint.address + "<br/>";
                 str += "花费时间为:&nbsp;&nbsp; " + data.minutes + "&nbsp;分钟";
-                let walkingTime = "。步行时间为： " + data.walkingMinutes + " 分钟";
+                let walkingTime = "。步行距离为： " + parseInt(data.walkingDistance * 1000) + " 米。";
                 $("#resultDiv").html(str + walkingTime);
             },
             error: function (data) {

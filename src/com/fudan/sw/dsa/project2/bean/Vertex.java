@@ -3,6 +3,7 @@ package com.fudan.sw.dsa.project2.bean;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * The abstraction of the stations in the map, here as a vertex in the graph.
@@ -48,11 +49,16 @@ public class Vertex implements Comparable<Vertex> {
      * The location info of the station
      */
     private double longitude, latitude;
+    private double addressDistance;
 
     public Vertex(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    void setAddressDistance(double addressDistance) {
+        this.addressDistance = addressDistance;
     }
 
     /**
@@ -123,5 +129,12 @@ public class Vertex implements Comparable<Vertex> {
 
     public ArrayList<Vertex> getAdjacentVertices() {
         return adjacentVertices;
+    }
+
+    public static class FinishTimeComparator implements Comparator<Vertex> {
+        @Override
+        public int compare(Vertex o1, Vertex o2) {
+            return (int) ((o1.addressDistance - o2.addressDistance) * 1000);
+        }
     }
 }
