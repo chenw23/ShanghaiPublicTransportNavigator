@@ -133,7 +133,7 @@ public class Graph {
             if (calculateDistance(vertex, address) < 4)
                 candidate.add(vertex);
         if (candidate.size() > 5) {
-            candidate.sort(new Vertex.FinishTimeComparator());
+            candidate.sort(new Vertex.distanceComparator());
             candidate = new ArrayList<>(candidate.subList(0, 4));
         }
         return candidate;
@@ -354,11 +354,29 @@ public class Graph {
         return returnRoute(finalPath);
     }
 
-    private int getMinTransfer(@NotNull String lineA, @NotNull String lineB) {
-        int numberA = Integer.parseInt(lineA.substring(lineA.length() == 6 ? 5 : 6));
-        int numberB = Integer.parseInt(lineB.substring(lineB.length() == 6 ? 5 : 6));
-        if (numberA > 13) numberA -= 2;
-        if (numberB > 13) numberB -= 2;
+
+    public ArrayList<Address> leastTransfer(Address start, Address end) {
+        int minimumTransfer = Integer.MAX_VALUE;
+        int transferTime;
+        ArrayList<Vertex> candidateStartStation = getCandidates(start);
+        ArrayList<Vertex> candidateEndStation = getCandidates(end);
+        Vertex selStart, selEnd;
+        if (candidateStartStation.size() == 0) candidateStartStation.add(nearestStation(start));
+        if (candidateEndStation.size() == 0) candidateEndStation.add(nearestStation(end));
+        for (Vertex vertexS : candidateStartStation)
+            for (Vertex vertexE : candidateEndStation) {
+                transferTime = getMinTransfer(vertexS, vertexE);
+                if (transferTime < minimumTransfer) {
+                    minimumTransfer = transferTime;
+                    selStart = vertexS;
+                    selEnd = vertexE;
+                }
+            }
+
+        return null;
+    }
+
+    private int getMinTransfer(@NotNull Vertex startStation, @NotNull Vertex endStation) {
         final int[][] minTransfer = {{0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2},
                 {1, 0, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2},
                 {1, 1, 1, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2}, {1, 2, 1, 2, 0, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3},
@@ -367,6 +385,20 @@ public class Graph {
                 {1, 1, 1, 1, 2, 2, 2, 1, 2, 0, 1, 1, 1, 2, 1}, {1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 0, 1, 1, 1, 2},
                 {1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 1, 2, 2}, {1, 1, 1, 1, 2, 2, 1, 2, 1, 1, 1, 1, 0, 2, 2},
                 {2, 1, 2, 2, 3, 2, 1, 2, 2, 2, 1, 2, 2, 0, 2}, {2, 1, 2, 2, 3, 2, 2, 2, 2, 1, 2, 2, 2, 2, 0}};
-        return minTransfer[numberA][numberB];
+        int minTransferTime = Integer.MAX_VALUE;
+        int transferTime;
+        for (Edge edgeA : startStation.getEdges())
+            for (Edge edgeB : endStation.getEdges()) {
+                String lineA = edgeA.getLine();
+                String lineB = edgeB.getLine();
+                int numberA = Integer.parseInt(lineA.substring(lineA.length() == 6 ? 5 : 6));
+                int numberB = Integer.parseInt(lineB.substring(lineB.length() == 6 ? 5 : 6));
+                if (numberA > 13) numberA -= 2;
+                if (numberB > 13) numberB -= 2;
+                transferTime = minTransfer[numberA][numberB];
+                if (transferTime < minTransferTime)
+                    minTransferTime = transferTime;
+            }
+        return minTransferTime;
     }
 }

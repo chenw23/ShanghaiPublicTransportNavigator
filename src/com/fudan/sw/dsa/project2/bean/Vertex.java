@@ -131,7 +131,7 @@ public class Vertex implements Comparable<Vertex> {
         return adjacentVertices;
     }
 
-    public static class FinishTimeComparator implements Comparator<Vertex> {
+    public static class distanceComparator implements Comparator<Vertex> {
         @Override
         public int compare(Vertex o1, Vertex o2) {
             return (int) ((o1.addressDistance - o2.addressDistance) * 1000);
