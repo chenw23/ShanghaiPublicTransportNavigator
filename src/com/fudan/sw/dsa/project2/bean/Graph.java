@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * The entrance of the shortest path searching algorithm and it stores the vertices in the
@@ -28,6 +29,9 @@ public class Graph {
      */
     public int totalTime = 0;
     public double walkingDistance = 0;
+    private Stack<Vertex> path;
+    private int time;
+    private Vertex startVertex, endVertex;
 
     public Graph() {
     }
@@ -360,7 +364,7 @@ public class Graph {
         int transferTime;
         ArrayList<Vertex> candidateStartStation = getCandidates(start);
         ArrayList<Vertex> candidateEndStation = getCandidates(end);
-        Vertex selStart, selEnd;
+        Vertex selStart = null, selEnd = null;
         if (candidateStartStation.size() == 0) candidateStartStation.add(nearestStation(start));
         if (candidateEndStation.size() == 0) candidateEndStation.add(nearestStation(end));
         for (Vertex vertexS : candidateStartStation)
@@ -372,7 +376,9 @@ public class Graph {
                     selEnd = vertexE;
                 }
             }
-
+        startVertex = selStart;
+        endVertex = selEnd;
+        DFS();
         return null;
     }
 
@@ -400,5 +406,34 @@ public class Graph {
                     minTransferTime = transferTime;
             }
         return minTransferTime;
+    }
+
+    private void DFS() {
+        for (Vertex u : vertices) {
+            u.color = Color.WHITE;
+            u.setPreVertex(null);
+        }
+        time = 0;
+        for (Vertex u : startVertex.getAdjacentVertices())
+            if (u.color.equals(Color.WHITE))
+                DFSVisit(u);
+    }
+
+    private void DFSVisit(@NotNull Vertex u) {
+        if (getMinTransfer(startVertex, u) > getMinTransfer(startVertex, endVertex) ||
+                u == endVertex || path.contains(u))
+            return;
+        path.push(u);
+        time++;
+        u.setDistance(time);
+        u.color = Color.GREY;
+        for (Vertex v : u.getAdjacentVertices())
+            if (v.color == Color.WHITE) {
+                v.setPreVertex(u);
+                DFSVisit(v);
+            }
+        time++;
+        u.finishingTime = time;
+        path.pop();
     }
 }

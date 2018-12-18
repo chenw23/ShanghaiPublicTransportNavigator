@@ -13,11 +13,12 @@ import java.util.Comparator;
  */
 public class Vertex implements Comparable<Vertex> {
 
+    Color color;
+    int finishingTime;
     /**
      * The Chinese name of the station
      */
     private String name;
-
     /**
      * All the edges connecting the vertex
      * In the map, it is all the lines that connects the station
@@ -27,24 +28,20 @@ public class Vertex implements Comparable<Vertex> {
      * different edges
      */
     private ArrayList<Edge> edges = new ArrayList<>();
-
     /**
      * All the edges that can be reached from the current station within one edge
      */
     private ArrayList<Vertex> adjacentVertices = new ArrayList<>();
-
     /**
      * This field is used in the dijkstra algorithm to denote the distance from the
      * source to this vertex.
      * Note that the distance of the source is 0
      */
     private int distance;
-
     /**
      * This field is used in the dijkstra algorithm to trace the path
      */
     private Vertex preVertex;
-
     /**
      * The location info of the station
      */
