@@ -361,7 +361,9 @@ public class Graph {
 
     public ArrayList<Address> leastTransfer(Address start, Address end) {
         int transferTime;
+        double walkingDist;
         minimumTransfer = Integer.MAX_VALUE;
+        walkingDistance = Integer.MAX_VALUE;
         ArrayList<Vertex> path = new ArrayList<>();
         Stack<Vertex> verticesStack = new Stack<>();
         ArrayList<Vertex> candidateStartStation = getCandidates(start);
@@ -370,8 +372,11 @@ public class Graph {
         if (candidateEndStation.size() == 0) candidateEndStation.add(nearestStation(end));
         for (Vertex vertexS : candidateStartStation)
             for (Vertex vertexE : candidateEndStation) {
+                walkingDist = calculateDistance(vertexS, start) + calculateDistance(vertexE, end);
                 transferTime = getMinTransfer(vertexS, vertexE);
-                if (transferTime < minimumTransfer) {
+                if (transferTime < minimumTransfer ||
+                        transferTime == minimumTransfer && walkingDist < walkingDistance) {
+                    walkingDistance = walkingDist;
                     minimumTransfer = transferTime;
                     startVertex = vertexS;
                     endVertex = vertexE;

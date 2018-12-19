@@ -14,7 +14,6 @@ import java.util.Comparator;
 public class Vertex implements Comparable<Vertex> {
 
     Color color;
-    int finishingTime;
     /**
      * The Chinese name of the station
      */
