@@ -195,21 +195,24 @@ public class IndexService {
                 break;
             case "2":
                 //换乘最少
-                route = subwayGraph.leastTransfer(startPoint, endPoint);
+                route = subwayGraph.lessTransfer(startPoint, endPoint);
                 break;
             case "3":
                 //时间最短
                 route = subwayGraph.shortestTime(startPoint, endPoint);
                 break;
             case "4":
+                //换乘最少
+                route = subwayGraph.leastTransfer(startPoint, endPoint);
+            case "5":
                 //步行最少
                 route = busGraph.shortestWalking(startPoint, endPoint);
                 break;
-            case "5":
+            case "6":
                 //换乘最少
                 route = busGraph.lessTransfer(startPoint, endPoint);
                 break;
-            case "6":
+            case "7":
                 //时间最短
                 route = busGraph.shortestTime(startPoint, endPoint);
                 break;

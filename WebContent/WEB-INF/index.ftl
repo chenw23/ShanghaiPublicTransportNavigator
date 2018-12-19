@@ -31,11 +31,12 @@
         <input type="hidden" id="hiddenEndLatitude" value="31.236009"/>
         <br/><br/>
         &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="1"/>地铁步行最少<br/>
-        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="2"/>地铁换乘最少<br/>
+        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="2"/>地铁换乘相对最少<br/>
         &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="3"/>地铁时间最短<br/>
-        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="4"/>公交步行最少<br/>
-        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="5"/>公交换乘最少<br/>
-        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="6"/>公交时间最短<br/>
+        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="4"/>地铁换乘绝对最少<br/>
+        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="5"/>公交步行最少<br/>
+        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="6"/>公交换乘最少<br/>
+        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="7"/>公交时间最短<br/>
         <br/>
         <input style="position:relative;left:40%;width:80px;height:30px;" type="button" value="查询"
                onclick="clickButton()">
