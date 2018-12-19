@@ -183,7 +183,7 @@ public class IndexService {
         System.out.println(endLongitude);
         System.out.println(endLatitude);
         System.out.println(choose);
-
+        ReturnValue returnValue = new ReturnValue();
         Address startPoint = new Address(startAddress, startLongitude, startLatitude);
         Address endPoint = new Address(endAddress, endLongitude, endLatitude);
         ArrayList<Address> route = new ArrayList<>();
@@ -217,15 +217,17 @@ public class IndexService {
                 //时间最短
                 route = busGraph.shortestTime(startPoint, endPoint);
                 break;
+            case "8":
+                //驾驶路线
+                returnValue.setTravellingMethod(1);
             default:
         }
         System.out.println("\nThe time used for the query is " +
                 (System.nanoTime() - startTime) / 1000 + " microseconds");
-        ReturnValue returnValue = new ReturnValue();
         returnValue.setStartPoint(startPoint);
         returnValue.setEndPoint(endPoint);
         returnValue.setSubwayList(route);
-        if (choose.compareTo("3") <= 0) {
+        if (choose.compareTo("4") <= 0) {
             returnValue.setMinutes(subwayGraph.totalTime);
             returnValue.setWalkingDistance(subwayGraph.walkingDistance);
         } else {

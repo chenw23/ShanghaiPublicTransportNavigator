@@ -394,6 +394,7 @@ public class Graph {
             path.add(startVertex);
             while (!verticesStack.empty())
                 path.add(verticesStack.pop());
+            totalTime = (int) (walkingDistance * 12) + pathTimeForLeastTransfer(path);
             return returnRoute(path);
         }
     }
@@ -422,6 +423,18 @@ public class Graph {
                     minTransferTime = transferTime;
             }
         return minTransferTime;
+    }
+
+    private int pathTimeForLeastTransfer(@NotNull ArrayList<Vertex> path) {
+        int time = 0;
+        Vertex preVertex = null;
+        for (Vertex vertex : path)
+            if (preVertex == null) preVertex = vertex;
+            else {
+                time += vertex.getEdge(preVertex).getWeight();
+                preVertex = vertex;
+            }
+        return time;
     }
 
     private void DFS(Vertex startVertex) {

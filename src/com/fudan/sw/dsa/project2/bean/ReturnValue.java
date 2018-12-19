@@ -8,6 +8,15 @@ public class ReturnValue {
     private Address endPoint;
     private double minutes;
     private double walkingDistance;
+    private int travellingMethod;
+
+    public int getTravellingMethod() {
+        return travellingMethod;
+    }
+
+    public void setTravellingMethod(int travellingMethod) {
+        this.travellingMethod = travellingMethod;
+    }
 
     public Address getStartPoint() {
         return startPoint;

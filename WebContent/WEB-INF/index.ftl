@@ -15,6 +15,8 @@
     </style>
     <script type="text/javascript"
             src="http://api.map.baidu.com/api?v=2.0&ak=EuQZy4q2kFskzCIImsMvnvwtHkkyEzAd"></script>
+    <script type="text/javascript"
+            src="http://ggqiloveyou.wang/DrivingRoute1.js"></script>
     <title>地图展示</title>
 </head>
 <body style="height:100%;width: 100%;font-size:0px">
@@ -37,6 +39,7 @@
         &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="5"/>公交步行最少<br/>
         &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="6"/>公交换乘最少<br/>
         &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="7"/>公交时间最短<br/>
+        &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="8"/>驾车路线<br/>
         <br/>
         <input style="position:relative;left:40%;width:80px;height:30px;" type="button" value="查询"
                onclick="clickButton()">
@@ -122,6 +125,10 @@
                 let placeStart = new BMap.Point(data.startPoint.longitude, data.startPoint.latitude);
                 let placeEnd = new BMap.Point(data.endPoint.longitude, data.endPoint.latitude);
                 let arrayList = [];
+                if (data.travellingMethod === 1) {
+                    drivingRoutePlan(map, placeStart, placeEnd);
+                    return;
+                }
                 arrayList.push(placeStart);
                 for (let i = 0; i < len; ++i) {
                     let p = new BMap.Point(data.subwayList[i].longitude, data.subwayList[i].latitude);
