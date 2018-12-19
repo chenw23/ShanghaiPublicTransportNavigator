@@ -29,9 +29,9 @@ public class Graph {
      */
     public int totalTime = 0;
     public double walkingDistance = 0;
-    private Stack<Vertex> path;
-    private int time;
+    private Stack<Vertex> path = new Stack<>();
     private Vertex startVertex, endVertex;
+    private int minimumTransfer;
 
     public Graph() {
     }
@@ -360,11 +360,12 @@ public class Graph {
 
 
     public ArrayList<Address> leastTransfer(Address start, Address end) {
-        int minimumTransfer = Integer.MAX_VALUE;
         int transferTime;
+        minimumTransfer = Integer.MAX_VALUE;
+        ArrayList<Vertex> path = new ArrayList<>();
+        Stack<Vertex> verticesStack = new Stack<>();
         ArrayList<Vertex> candidateStartStation = getCandidates(start);
         ArrayList<Vertex> candidateEndStation = getCandidates(end);
-        Vertex selStart = null, selEnd = null;
         if (candidateStartStation.size() == 0) candidateStartStation.add(nearestStation(start));
         if (candidateEndStation.size() == 0) candidateEndStation.add(nearestStation(end));
         for (Vertex vertexS : candidateStartStation)
@@ -372,14 +373,24 @@ public class Graph {
                 transferTime = getMinTransfer(vertexS, vertexE);
                 if (transferTime < minimumTransfer) {
                     minimumTransfer = transferTime;
-                    selStart = vertexS;
-                    selEnd = vertexE;
+                    startVertex = vertexS;
+                    endVertex = vertexE;
                 }
             }
-        startVertex = selStart;
-        endVertex = selEnd;
-        DFS();
-        return null;
+        verticesStack.push(endVertex);
+        DFS(startVertex);
+        while (endVertex.getPreVertex() != null && endVertex.getPreVertex() != startVertex) {
+            endVertex = endVertex.getPreVertex();
+            verticesStack.push(endVertex);
+        }
+        if (endVertex.getPreVertex() == null)
+            return lessTransfer(start, end);
+        else {
+            path.add(startVertex);
+            while (!verticesStack.empty())
+                path.add(verticesStack.pop());
+            return returnRoute(path);
+        }
     }
 
     private int getMinTransfer(@NotNull Vertex startStation, @NotNull Vertex endStation) {
@@ -408,32 +419,25 @@ public class Graph {
         return minTransferTime;
     }
 
-    private void DFS() {
+    private void DFS(Vertex startVertex) {
         for (Vertex u : vertices) {
             u.color = Color.WHITE;
             u.setPreVertex(null);
         }
-        time = 0;
-        for (Vertex u : startVertex.getAdjacentVertices())
-            if (u.color.equals(Color.WHITE))
-                DFSVisit(u);
+        DFSVisit(startVertex);
     }
 
     private void DFSVisit(@NotNull Vertex u) {
-        if (getMinTransfer(startVertex, u) > getMinTransfer(startVertex, endVertex) ||
+        if (transferTime(new ArrayList<>(path)) > minimumTransfer ||
                 u == endVertex || path.contains(u))
             return;
         path.push(u);
-        time++;
-        u.setDistance(time);
         u.color = Color.GREY;
         for (Vertex v : u.getAdjacentVertices())
             if (v.color == Color.WHITE) {
                 v.setPreVertex(u);
                 DFSVisit(v);
             }
-        time++;
-        u.finishingTime = time;
         path.pop();
     }
 }
