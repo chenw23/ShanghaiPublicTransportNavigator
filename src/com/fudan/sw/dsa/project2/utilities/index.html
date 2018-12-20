@@ -24,13 +24,20 @@
 <input id="hiddenBaseUrl" type="hidden" value="${baseUrl}"/>
 <div class="container">
     <div class="row">
+        <div class="page-header">
+            <h1>Public Transportation Navigation System
+                <small>Author: Wang, Chen December 20th,2018</small>
+            </h1>
+        </div>
         <div class="col-md-9">
-            <div id="allmap" style="height: 800px;"></div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="embed-responsive-item well well-lg" id="allmap"></div>
+            </div>
         </div>
         <div class="col-md-3">
             <div class="panel panel-info">
                 <div class="panel-heading" style="font-size: large;font-weight: bold">
-                    Public Transportation Navigation System
+                    Route Request Area
                 </div>
                 <div class="panel-body">
                     <form id="submitForm">
@@ -47,19 +54,33 @@
                         </div>
                         <input id="hiddenEndLongitude" type="hidden" value="121.478941"/>
                         <input id="hiddenEndLatitude" type="hidden" value="31.236009"/>
-                        <div class="input-group">
-                            <input name="items" type="radio" value="1"/>地铁步行最少<br/>
-                            <input name="items" type="radio" value="2"/>地铁换乘相对最少<br/>
-                            <input name="items" type="radio" value="3"/>地铁时间最短<br/>
-                            <input name="items" type="radio" value="4"/>地铁换乘绝对最少<br/>
-                            <input name="items" type="radio" value="5"/>公交步行最少<br/>
-                            <input name="items" type="radio" value="6"/>公交换乘最少<br/>
-                            <input name="items" type="radio" value="7"/>公交时间最短<br/>
-                            <input name="items" type="radio" value="8"/>驾车路线<br/>
-                        </div>
-                        <input onclick="clickButton()" style="position:relative;left:40%;width:80px;height:30px;"
-                               type="button"
-                               value="查询">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="1"/>地铁步行最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="2"/>地铁换乘相对最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="3"/>地铁时间最短
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="4"/>地铁换乘绝对最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="5"/>公交步行最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="6"/>公交换乘最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="7"/>公交时间最短
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="8"/>驾车路线
+                            </li>
+                        </ul>
+                        <input class="btn btn-success" onclick="clickButton()" type="button" value="查询">
                     </form>
                     <br/>
                     <div style="height: 60%">
