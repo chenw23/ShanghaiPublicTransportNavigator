@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <meta content="initial-scale=1.0, user-scalable=no" name="viewport"/>
     <style type="text/css">
         body, html, #allmap {
             width: 100%;
@@ -11,51 +11,87 @@
             overflow: hidden;
             margin: 0;
         }
+
+        .BMapLabel {
+            max-width: fit-content;
+        }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous">
-    <script type="text/javascript"
-            src="http://api.map.baidu.com/api?v=2.0&ak=EuQZy4q2kFskzCIImsMvnvwtHkkyEzAd"></script>
-    <script type="text/javascript"
-            src="http://ggqiloveyou.wang/DrivingRoute1.js"></script>
+          rel="stylesheet">
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=EuQZy4q2kFskzCIImsMvnvwtHkkyEzAd"
+            type="text/javascript"></script>
+    <script src="http://ggqiloveyou.wang/DrivingRoute1.js"
+            type="text/javascript"></script>
     <title>地图展示</title>
 </head>
-<body style="height:100%;width: 100%;font-size:0px">
+<body>
 <input id="hiddenBaseUrl" type="hidden" value="${baseUrl}"/>
 <div class="container">
     <div class="row">
-        <div class="col-9">
-            <div style="height: 800px;display: inline-block;" id="allmap"></div>
+        <div class="page-header">
+            <h1>Public Transportation Navigation System
+                <small>Author: Wang, Chen December 20th,2018</small>
+            </h1>
         </div>
-        <div class="col-3" style="height:100%;display:inline-block; ">
-            <form style="position:absolute;font-size:16px;top:5%;" id="submitForm">
-                &nbsp;&nbsp;&nbsp;起点: <input type="text" name="startAddress" id="startAddress" value="复旦大学张江校区"/>
-                <input type="hidden" id="hiddenStartLongitude" value="121.604569"/>
-                <input type="hidden" id="hiddenStartLatitude" value="31.196348"/>
-                <br/><br/>
-                &nbsp;&nbsp;&nbsp;终点: <input type="text" name="endAddress" id="endAddress" value="人民广场"/>
-                <input type="hidden" id="hiddenEndLongitude" value="121.478941"/>
-                <input type="hidden" id="hiddenEndLatitude" value="31.236009"/>
-                <br/><br/>
-                &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="1"/>地铁步行最少<br/>
-                &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="2"/>地铁换乘相对最少<br/>
-                &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="3"/>地铁时间最短<br/>
-                &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="4"/>地铁换乘绝对最少<br/>
-                &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="5"/>公交步行最少<br/>
-                &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="6"/>公交换乘最少<br/>
-                &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="7"/>公交时间最短<br/>
-                &nbsp;&nbsp;&nbsp;<input type="radio" name="items" value="8"/>驾车路线<br/>
-                <br/>
-                <input style="position:relative;left:40%;width:80px;height:30px;" type="button" value="查询"
-                       onclick="clickButton()">
-            </form>
-            <br/>
-            <div style="position:absolute;top:40%;width: 20%;height: 60%">
-                <span style="font-size:18px;position:relative;">display the result:</span><br/>
-                <div id="resultDiv"
-                     style="background-color:#F5F5F5;width: 90%;height:90%;font-size:18px;word-wrap: break-word; ">
-
+        <div class="col-md-9">
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="embed-responsive-item" id="allmap"></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading" style="font-size: large;font-weight: bold">
+                    Route Request Area
+                </div>
+                <div class="panel-body">
+                    <form id="submitForm">
+                        <div class="input-group">
+                            <span class="input-group-addon">起点:</span>
+                            <input class="form-control" id="startAddress" name="startAddress" type="text"
+                                   value="复旦大学张江校区"/>
+                        </div>
+                        <input id="hiddenStartLongitude" type="hidden" value="121.604569"/>
+                        <input id="hiddenStartLatitude" type="hidden" value="31.196348"/>
+                        <div class="input-group">
+                            <span class="input-group-addon">终点: </span>
+                            <input class="form-control" id="endAddress" name="endAddress" type="text" value="人民广场"/>
+                        </div>
+                        <input id="hiddenEndLongitude" type="hidden" value="121.478941"/>
+                        <input id="hiddenEndLatitude" type="hidden" value="31.236009"/>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="1"/>地铁步行最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="2"/>地铁换乘相对最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="3"/>地铁时间最短
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="4"/>地铁换乘绝对最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="5"/>公交步行最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="6"/>公交换乘最少
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="7"/>公交时间最短
+                            </li>
+                            <li class="list-group-item">
+                                <input name="items" type="radio" value="8"/>驾车路线
+                            </li>
+                        </ul>
+                        <input class="btn btn-success" onclick="clickButton()" type="button" value="查询">
+                    </form>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">display the result:</div>
+                        <div id="resultDiv" style="font-size:18px;word-wrap:break-word;">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
